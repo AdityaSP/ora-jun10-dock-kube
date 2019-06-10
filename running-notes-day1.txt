@@ -1057,3 +1057,146 @@ jovial_lamport
 jovial_lamport
 
 /home/docker>
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+
+/home/docker> docker container ls  | grep -v k8s                                CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+6df57b939042        nginx                                                            "nginx -g 'daemon ..."   19 minutes ago      Up 16 minutes       0.0.0.0:9999->80/tcp                                                 jovial_lamport
+
+/home/docker> ls /
+bin  d     dev  home  lib    linuxrc  mnt  proc  run   srv  tmp  var
+c    data  etc  init  lib64  media    opt  root  sbin  sys  usr
+
+/home/docker> docker container run -d nginx
+aad0db9cb13aef36f5b0b28397c14155bbbb29c5d79dc7894db81891703cf138
+
+/home/docker> docker container ls  | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+aad0db9cb13a        nginx                                                            "nginx -g 'daemon ..."   4 seconds ago       Up 3 seconds        80/tcp                                                               brave_ritchie
+6df57b939042        nginx                                                            "nginx -g 'daemon ..."   20 minutes ago      Up 17 minutes       0.0.0.0:9999->80/tcp                                                 jovial_lamport
+
+/home/docker>
+
+/home/docker> ls /
+bin  d     dev  home  lib    linuxrc  mnt  proc  run   srv  tmp  var
+c    data  etc  init  lib64  media    opt  root  sbin  sys  usr
+
+/home/docker> docker container ls  | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+aad0db9cb13a        nginx                                                            "nginx -g 'daemon ..."   11 seconds ago      Up 10 seconds       80/tcp                                                               brave_ritchie
+6df57b939042        nginx                                                            "nginx -g 'daemon ..."   20 minutes ago      Up 17 minutes       0.0.0.0:9999->80/tcp                                                 jovial_lamport
+
+/home/docker> docker container exec aad0db9cb13a ls /
+bin
+boot
+dev
+etc
+home
+lib
+lib64
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+
+/home/docker> docker container exec 6df57b939042 ls /
+bin
+boot
+dev
+etc
+home
+lib
+lib64
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+
+/home/docker> docker container exec 6df57b939042 touch /tmp/f1.txt
+
+/home/docker> ls -ltr /tmp/f1.txt
+ls: cannot access '/tmp/f1.txt': No such file or directory
+
+/home/docker> docker container exec 6df57b939042 ls -ltr /tmp/f1.txt
+-rw-r--r-- 1 root root 0 Jun 10 09:29 /tmp/f1.txt
+
+/home/docker> docker container exec aad0db9cb13a ls -lt /tmp/f1.txt
+ls: cannot access '/tmp/f1.txt': No such file or directory
+
+/home/docker> docker container exec -it 6df57b939042 sh
+# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+# bash
+root@6df57b939042:/# cd /etc/os-release
+bash: cd: /etc/os-release: Not a directory
+root@6df57b939042:/# cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 9 (stretch)"
+NAME="Debian GNU/Linux"
+VERSION_ID="9"
+VERSION="9 (stretch)"
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+root@6df57b939042:/# exit
+exit
+# exit
+
+/home/docker> docker container ls  | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+aad0db9cb13a        nginx                                                            "nginx -g 'daemon ..."   7 minutes ago       Up 7 minutes        80/tcp                                                               brave_ritchie
+6df57b939042        nginx                                                            "nginx -g 'daemon ..."   27 minutes ago      Up 25 minutes       0.0.0.0:9999->80/tcp                                                 jovial_lamport
+
+/home/docker> docker container exec -it 6df57b939042 bash
+root@6df57b939042:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@6df57b939042:/# cd /usr/share/nginx/
+root@6df57b939042:/usr/share/nginx# ls
+html
+root@6df57b939042:/usr/share/nginx# cd he
+bash: cd: he: No such file or directory
+root@6df57b939042:/usr/share/nginx# cd html/
+root@6df57b939042:/usr/share/nginx/html# ls
+50x.html  index.html
+root@6df57b939042:/usr/share/nginx/html# vi mypage.html
+bash: vi: command not found
+root@6df57b939042:/usr/share/nginx/html# ps
+bash: ps: command not found
+root@6df57b939042:/usr/share/nginx/html# ping
+bash: ping: command not found
+root@6df57b939042:/usr/share/nginx/html# cat > mypage.html
+<h1>My Code </h1>
+^C
+root@6df57b939042:/usr/share/nginx/html# cat mypage.html
+<h1>My Code </h1>
+root@6df57b939042:/usr/share/nginx/html# exit
+exit
+
+/home/docker> docker container ls  | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+aad0db9cb13a        nginx                                                            "nginx -g 'daemon ..."   13 minutes ago      Up 13 minutes       80/tcp                                                               brave_ritchie
+6df57b939042        nginx                                                            "nginx -g 'daemon ..."   34 minutes ago      Up 31 minutes       0.0.0.0:9999->80/tcp                                                 jovial_lamport
+
+/home/docker>
