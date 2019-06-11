@@ -976,3 +976,436 @@ CONTAINER ID        IMAGE                                                       
 fc7f36bf9b4d        aa                                                               "httpd -D FOREGROUND"    3 seconds ago       Up 2 seconds        0.0.0.0:8585->80/tcp                                                 infallible_swanson
 
 /c/Users/Dell lap/docker-workshop/jun10/aa >
+
+
+
+-------------------------------------------------------------------------------------
+
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+fc7f36bf9b4d        aa                                                               "httpd -D FOREGROUND"    11 minutes ago      Up 11 minutes       0.0.0.0:8585->80/tcp                                                 infallible_swanson
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ls
+Dockerfile  mypage.html
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container exec -it fc7f36bf9b4d sh
+/ # cd /etc/apache2/
+/etc/apache2 # ls
+conf.d      httpd.conf  magic       mime.types
+/etc/apache2 # vi httpd.conf
+/etc/apache2 # grep Listen httpd.conf
+# Listen: Allows you to bind Apache to specific IP addresses and/or
+# Change this to Listen on specific IP addresses as shown below to
+#Listen 12.34.56.78:80
+Listen 80
+/etc/apache2 # sed -i "s/Listen 80/Listen 9292/g" httpd.conf
+/etc/apache2 # grep Listen httpd.conf
+# Listen: Allows you to bind Apache to specific IP addresses and/or
+# Change this to Listen on specific IP addresses as shown below to
+#Listen 12.34.56.78:80
+Listen 9292
+/etc/apache2 # exit
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi docker-entrypoint.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi myscript.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >chmod +x myscript.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat myscript.sh
+#!/bin/sh
+
+echo "$@"
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >myscript.sh ls -ltr
+-bash: myscript.sh: command not found
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >./myscript.sh ls -ltr
+ls -ltr
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi myscript.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat myscript.sh
+#!/bin/sh
+
+echo "$@"
+exec "$@"
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >./myscript.sh ls -ltr
+ls -ltr
+total 2
+-rwxrwxrwx 1 docker docker  22 Jun 11 08:51 mypage.html
+-rwxrwxrwx 1 docker docker  70 Jun 11 09:19 docker-entrypoint.sh
+-rwxrwxrwx 1 docker docker 161 Jun 11 09:21 Dockerfile
+-rwxrwxrwx 1 docker docker  31 Jun 11 09:23 myscript.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi docker-entrypoint.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat docker-entrypoint.sh
+#!/bin/sh
+
+sed -i "s/Listen 80/Listen 9292/g" /etc/apache2/httpd.conf
+exec "$@"
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+COPY mypage.html /var/www/localhost/htdocs
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ls
+Dockerfile  docker-entrypoint.sh  mypage.html  myscript.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+COPY docker-entrypoint.sh /bin
+RUN chmod +x /bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+COPY mypage.html /var/www/localhost/htdocs
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat docker-entrypoint.sh
+#!/bin/sh
+
+sed -i "s/Listen 80/Listen 9292/g" /etc/apache2/httpd.conf
+exec "$@"
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:latest -t aa:4 .
+Sending build context to Docker daemon   5.12kB
+Step 1/8 : FROM alpine
+ ---> 055936d39205
+Step 2/8 : RUN apk update
+ ---> Using cache
+ ---> 55ccd72476a8
+Step 3/8 : RUN apk add apache2
+ ---> Using cache
+ ---> 0fd4e53cde92
+Step 4/8 : COPY docker-entrypoint.sh /bin
+ ---> 17ae3917d46f
+Step 5/8 : RUN chmod +x /bin/docker-entrypoint.sh
+ ---> Running in ec91f4d35ee0
+ ---> 8101ef4900bb
+Removing intermediate container ec91f4d35ee0
+Step 6/8 : ENTRYPOINT docker-entrypoint.sh
+ ---> Running in 113dc50f032f
+ ---> f55a011f6230
+Removing intermediate container 113dc50f032f
+Step 7/8 : CMD httpd -D FOREGROUND
+ ---> Running in c335395ffc8a
+ ---> c546d3e631fb
+Removing intermediate container c335395ffc8a
+Step 8/8 : COPY mypage.html /var/www/localhost/htdocs
+ ---> 8cc295996b3d
+Successfully built 8cc295996b3d
+Successfully tagged aa:latest
+Successfully tagged aa:4
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container run -d  -p8787:9292  aa
+de912e1995e8cc3581bf705aaeb232928e5e439196b6b1aa520dbf3dcfd5f21c
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi docker-entrypoint.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >#docker container run alpine
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image history alpine
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+055936d39205        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B      
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:a86aea1f3a7d68f...   5.53MB  
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container run --rm alpine env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=50977cf20ade
+HOME=/root
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container run --rm -e MYVAR=hello alpine env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=5526f32bdd93
+MYVAR=hello
+HOME=/root
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat docker-entrypoint.sh
+#!/bin/sh
+
+sed -i "s/Listen 80/Listen ${APACHE_PORT}/g" /etc/apache2/httpd.conf
+exec "$@"
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container run --rm -e APACHE_PORT=8989 alpine env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=2841b3e49abe
+APACHE_PORT=8989
+HOME=/root
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat docker-entrypoint.sh
+#!/bin/sh
+
+sed -i "s/Listen 80/Listen ${APACHE_PORT}/g" /etc/apache2/httpd.conf
+exec "$@"
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat Dockerfile
+FROM alpine
+ENV APACHE_PORT 80
+RUN apk update
+RUN apk add apache2
+COPY docker-entrypoint.sh /bin
+RUN chmod +x /bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+COPY mypage.html /var/www/localhost/htdocs
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:latest -t a                a:5 .
+Sending build context to Docker daemon   5.12kB
+Step 1/9 : FROM alpine
+ ---> 055936d39205
+Step 2/9 : ENV APACHE_PORT 80
+ ---> Running in 1a15a5d81e77
+ ---> 21986bfd5165
+Removing intermediate container 1a15a5d81e77
+Step 3/9 : RUN apk update
+ ---> Running in 6842b8c3d334
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+v3.9.4-24-g4e2ff29bbe [http://dl-cdn.alpinelinux.org/alpine/v3.9/main]
+v3.9.4-25-g65097c9cdc [http://dl-cdn.alpinelinux.org/alpine/v3.9/community]
+OK: 9770 distinct packages available
+ ---> acaa87af25fe
+Removing intermediate container 6842b8c3d334
+Step 4/9 : RUN apk add apache2
+ ---> Running in d2d961e624c3
+(1/6) Installing libuuid (2.33-r0)
+(2/6) Installing apr (1.6.5-r0)
+(3/6) Installing expat (2.2.6-r0)
+(4/6) Installing apr-util (1.6.1-r5)
+(5/6) Installing pcre (8.42-r1)
+(6/6) Installing apache2 (2.4.39-r0)
+Executing apache2-2.4.39-r0.pre-install
+Executing busybox-1.29.3-r10.trigger
+OK: 9 MiB in 20 packages
+ ---> 60777a9c91cb
+Removing intermediate container d2d961e624c3
+Step 5/9 : COPY docker-entrypoint.sh /bin
+ ---> dbe30425cd91
+Step 6/9 : RUN chmod +x /bin/docker-entrypoint.sh
+ ---> Running in 66a1ac4eb257
+ ---> 78936f342721
+Removing intermediate container 66a1ac4eb257
+Step 7/9 : ENTRYPOINT docker-entrypoint.sh
+ ---> Running in 036df46da661
+ ---> 198c8305cd9f
+Removing intermediate container 036df46da661
+Step 8/9 : CMD httpd -D FOREGROUND
+ ---> Running in 722cd7ad2922
+ ---> 1dee712a2370
+Removing intermediate container 722cd7ad2922
+Step 9/9 : COPY mypage.html /var/www/localhost/htdocs
+ ---> 505890143594
+Successfully built 505890143594
+Successfully tagged aa:latest
+Successfully tagged aa:5
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image history aa
+IMAGE               CREATED             CREATED BY                                                      SIZE                COMMENT
+505890143594        10 seconds ago      /bin/sh -c #(nop) COPY file:b15906318462                71...   22B
+1dee712a2370        10 seconds ago      /bin/sh -c #(nop)  CMD ["httpd" "-D" "FO                RE...   0B
+198c8305cd9f        11 seconds ago      /bin/sh -c #(nop)  ENTRYPOINT ["docker-e                nt...   0B
+78936f342721        11 seconds ago      /bin/sh -c chmod +x /bin/docker-entrypoi                nt.sh   90B
+dbe30425cd91        11 seconds ago      /bin/sh -c #(nop) COPY file:5ac70fe6e047                17...   90B
+60777a9c91cb        12 seconds ago      /bin/sh -c apk add apache2                                      3.6MB
+acaa87af25fe        16 seconds ago      /bin/sh -c apk update                                           1.31MB
+21986bfd5165        19 seconds ago      /bin/sh -c #(nop)  ENV APACHE_PORT=80                           0B
+055936d39205        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]                              0B
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:a86aea1f3a7d6                8f...   5.53MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image history aa
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+505890143594        18 seconds ago      /bin/sh -c #(nop) COPY file:b1590631846271...   22B     
+1dee712a2370        18 seconds ago      /bin/sh -c #(nop)  CMD ["httpd" "-D" "FORE...   0B      
+198c8305cd9f        19 seconds ago      /bin/sh -c #(nop)  ENTRYPOINT ["docker-ent...   0B      
+78936f342721        19 seconds ago      /bin/sh -c chmod +x /bin/docker-entrypoint.sh   90B     
+dbe30425cd91        19 seconds ago      /bin/sh -c #(nop) COPY file:5ac70fe6e04717...   90B     
+60777a9c91cb        20 seconds ago      /bin/sh -c apk add apache2                      3.6MB   
+acaa87af25fe        24 seconds ago      /bin/sh -c apk update                           1.31MB  
+21986bfd5165        27 seconds ago      /bin/sh -c #(nop)  ENV APACHE_PORT=80           0B      
+055936d39205        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B      
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:a86aea1f3a7d68f...   5.53MB  
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container ls -a | grep k8s
+9e7dff393b72        k8s.gcr.io/k8s-dns-sidecar-amd64                                 "/sidecar --v=2 --..."   5 hours ago         Up 5 hours                                                                               k8s_sidecar_kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_11
+0ace968ba65e        k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64                           "/dnsmasq-nanny -v..."   5 hours ago         Up 5 hours                                                                               k8s_dnsmasq_kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_10
+1555c5c75db1        k8s.gcr.io/heapster-grafana-amd64                                "/run.sh"                5 hours ago         Up 5 hours                                                                               k8s_grafana_influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_62
+45948d070b1a        gcr.io/google_containers/metrics-server-amd64                    "/metrics-server -..."   5 hours ago         Up 5 hours                                                                               k8s_metrics-server_metrics-server-bb9ffc6b8-c4bsh_kube-system_ac742fe8-2f94-11e9-8d17-080027326ca6_63
+6ca948c9b20a        k8s.gcr.io/kubernetes-dashboard-amd64                            "/dashboard --inse..."   5 hours ago         Up 5 hours                                                                               k8s_kubernetes-dashboard_kubernetes-dashboard-77d8b98585-mftdb_kube-system_1806d17c-804a-11e9-a140-080027326ca6_2
+09c0495e8b13        k8s.gcr.io/k8s-dns-kube-dns-amd64                                "/kube-dns --domai..."   5 hours ago         Up 5 hours                                                                               k8s_kubedns_kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_9
+1b885e1fb69f        k8s.gcr.io/heapster-influxdb-amd64                               "influxd --config ..."   5 hours ago         Up 5 hours                                                                               k8s_influxdb_monitoring-influxdb-66946c9f58-h5lhw_kube-system_abf955f0-2f94-11e9-8d17-080027326ca6_64
+a6c2cc80cc47        quay.io/kubernetes-ingress-controller/nginx-ingress-controller   "/usr/bin/dumb-ini..."   5 hours ago         Up 5 hours                                                                               k8s_nginx-ingress-controller_nginx-ingress-controller-zjd74_kube-system_ab42b3da-2f94-11e9-8d17-080027326ca6_404
+3c6b106ca93f        k8s.gcr.io/heapster-amd64                                        "/heapster --sourc..."   5 hours ago         Up 5 hours                                                                               k8s_heapster_heapster-xnbjb_kube-system_aafb3c7c-2f94-11e9-8d17-080027326ca6_62
+20bc4f72c577        k8s.gcr.io/heapster-influxdb-amd64                               "influxd --config ..."   5 hours ago         Up 5 hours                                                                               k8s_influxdb_influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_65
+f46c5fe6400a        k8s.gcr.io/heapster-amd64                                        "/heapster --sourc..."   5 hours ago         Up 5 hours                                                                               k8s_heapster_heapster-546c9964c6-2w8ld_kube-system_ac314ae9-2f94-11e9-8d17-080027326ca6_62
+6c9b1e081645        k8s.gcr.io/defaultbackend                                        "/server"                5 hours ago         Up 5 hours                                                                               k8s_default-http-backend_default-http-backend-cvzhd_kube-system_ab6b020b-2f94-11e9-8d17-080027326ca6_235
+d76baa4f7465        gcr.io/kubernetes-helm/tiller                                    "/tiller"                5 hours ago         Up 5 hours                                                                               k8s_tiller_tiller-deploy-5b7c59888b-6rbgl_kube-system_42cc5a34-3c10-11e9-a9d7-080027326ca6_254
+7efb05722aac        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_kubernetes-dashboard-77d8b98585-mftdb_kube-system_1806d17c-804a-11e9-a140-080027326ca6_2
+f79dd9152084        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_9
+fb8594497eea        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_62
+f576cd0c7fc6        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_monitoring-influxdb-66946c9f58-h5lhw_kube-system_abf955f0-2f94-11e9-8d17-080027326ca6_61
+016adcc6a53c        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_heapster-xnbjb_kube-system_aafb3c7c-2f94-11e9-8d17-080027326ca6_61
+08cc4163dd52        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours          0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:18080->18080/tcp   k8s_POD_nginx-ingress-controller-zjd74_kube-system_ab42b3da-2f94-11e9-8d17-080027326ca6_61
+681c37cf3986        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_tiller-deploy-5b7c59888b-6rbgl_kube-system_42cc5a34-3c10-11e9-a9d7-080027326ca6_54
+b4e91e29d9b8        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_default-http-backend-cvzhd_kube-system_ab6b020b-2f94-11e9-8d17-080027326ca6_63
+e451381fe3da        prom/prometheus                                                  "/bin/prometheus -..."   5 hours ago         Up 5 hours                                                                               k8s_prometheus_prometheus-deployment-79c7cf44fc-xdj6l_monitoring_ed3806b7-803f-11e9-a140-080027326ca6_2
+2dcaf6f4c0d4        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_heapster-546c9964c6-2w8ld_kube-system_ac314ae9-2f94-11e9-8d17-080027326ca6_61
+5e5c8721cd03        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_metrics-server-bb9ffc6b8-c4bsh_kube-system_ac742fe8-2f94-11e9-8d17-080027326ca6_60
+4fe508d3cd83        k8s.gcr.io/heapster-grafana-amd64                                "/run.sh"                5 hours ago         Up 5 hours                                                                               k8s_grafana_monitoring-grafana-65757b9656-h4fbs_kube-system_abcaee65-2f94-11e9-8d17-080027326ca6_61
+ef56282ed381        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_prometheus-deployment-79c7cf44fc-xdj6l_monitoring_ed3806b7-803f-11e9-a140-080027326ca6_2
+8701d9a6f70c        gcr.io/google-containers/kube-addon-manager                      "/opt/kube-addons.sh"    5 hours ago         Up 5 hours                                                                               k8s_kube-addon-manager_kube-addon-manager-minikube_kube-system_c4c3188325a93a2d7fb1714e1abf1259_65
+92777e21a2e6        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_monitoring-grafana-65757b9656-h4fbs_kube-system_abcaee65-2f94-11e9-8d17-080027326ca6_61
+ace6ee6f54b8        gcr.io/google_containers/pause-amd64:3.0                         "/pause"                 5 hours ago         Up 5 hours                                                                               k8s_POD_kube-addon-manager-minikube_kube-system_c4c3188325a93a2d7fb1714e1abf1259_61
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container ls -a | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+de912e1995e8        8cc295996b3d                                                     "docker-entrypoint..."   10 minutes ago      Up 10 minutes       0.0.0.0:8787->9292/tcp                                               epic_liskov
+fc7f36bf9b4d        8c124839f06f                                                     "httpd -D FOREGROUND"    38 minutes ago      Up 38 minutes       0.0.0.0:8585->80/tcp                                                 infallible_swanson
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container rm -f de912e1995e8 fc7f36bf9b4d
+de912e1995e8
+fc7f36bf9b4d
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container run -d -p 9191:80 aa
+4c1435b0dc9231e3c233b066c1675087c9807514f6c5d026d00525414435548c
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container exec 4c1435b env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=4c1435b0dc92
+APACHE_PORT=80
+HOME=/root
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container run -d -p 9191:9090 -e APACHE_PORT=9090 aa
+bbe0bac480abb6aa446ca180dc094ba5c0c5410205ada6829a6a38bdd6d2327c
+docker: Error response from daemon: driver failed programming external connectivity on endpoint pensive_nobel (82aefd1675eaaf12aa5cd0ed4152e5d0dfde15cc849568d99cd35280d324e77a): Bind for 0.0.0.0:9191 failed: port is already allocated.
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container run -d -p 9292:9090 -e APACHE_PORT=9090 aa
+ebfd4fab888be4715f17da70474f059a3e65805bf0b80d30a2970446945765ba
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container exec ebfd4fab8 env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=ebfd4fab888b
+APACHE_PORT=9090
+HOME=/root
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >#docker container run -d aa ping google.com
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >#docker-entrypoint.sh httpd -D FOREGROUND
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat Dockerfile
+FROM alpine
+ENV APACHE_PORT 80
+RUN apk update
+RUN apk add apache2
+COPY docker-entrypoint.sh /bin
+RUN chmod +x /bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+COPY mypage.html /var/www/localhost/htdocs
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >#docker container run -d aa ping google.com
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cd ..
+
+/c/Users/Dell lap/docker-workshop/jun10 >mkdir pinger
+
+/c/Users/Dell lap/docker-workshop/jun10 >cd pinger/
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >cat Dockerfile
+FROM alpine
+ENTRYPOINT ["ping", "-c2"]
+CMD ["google.com"]
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >#ping -c2 google.com
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >docker image build -t pinger .
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM alpine
+ ---> 055936d39205
+Step 2/3 : ENTRYPOINT ping -c2
+ ---> Running in 025116972a25
+ ---> d05d939269a2
+Removing intermediate container 025116972a25
+Step 3/3 : CMD google.com
+ ---> Running in 36b55e73558e
+ ---> 9323ecc53aef
+Removing intermediate container 36b55e73558e
+Successfully built 9323ecc53aef
+Successfully tagged pinger:latest
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >docker container run --rm pinger
+PING google.com (172.217.167.142): 56 data bytes
+64 bytes from 172.217.167.142: seq=0 ttl=53 time=41.155 ms
+64 bytes from 172.217.167.142: seq=1 ttl=53 time=46.039 ms
+
+--- google.com ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 41.155/43.597/46.039 ms
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >cat Dockerfile
+FROM alpine
+ENTRYPOINT ["ping", "-c2"]
+CMD ["google.com"]
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >docker container run --rm pinger yahoo.com
+PING yahoo.com (98.138.219.231): 56 data bytes
+64 bytes from 98.138.219.231: seq=0 ttl=48 time=252.651 ms
+64 bytes from 98.138.219.231: seq=1 ttl=48 time=251.998 ms
+
+--- yahoo.com ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 251.998/252.324/252.651 ms
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >docker container run --rm --entrypoint "ping -c4" pinger yahoo.com
+container_linux.go:265: starting container process caused "exec: \"ping -c4\": executable file not found in $PATH"
+docker: Error response from daemon: oci runtime error: container_linux.go:265: starting container process caused "exec: \"ping -c4\": executable file not found in $PATH".
+ERRO[0000] error waiting for container: context canceled
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >docker container run --rm --entrypoint "[ping, -c4]" pinger yahoo.com
+container_linux.go:265: starting container process caused "exec: \"[ping, -c4]\": executable file not found in $PATH"
+docker: Error response from daemon: oci runtime error: container_linux.go:265: starting container process caused "exec: \"[ping, -c4]\": executable file not found in $PATH".
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >
+
+/c/Users/Dell lap/docker-workshop/jun10/pinger >cd ..
+
+/c/Users/Dell lap/docker-workshop/jun10 >cd aa
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ls
+Dockerfile  docker-entrypoint.sh  mypage.html  myscript.sh
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
