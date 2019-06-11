@@ -811,3 +811,168 @@ CONTAINER ID        IMAGE                                                       
 8509c0f06599        aa                                                               "httpd -D FOREGROUND"    7 seconds ago       Up 5 seconds        0.0.0.0:8585->80/tcp                                                 determined_bell
 
 /c/Users/Dell lap/docker-workshop/jun10/aa >
+
+
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat mypage.html
+<h1>Hello World </h1>
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ls
+Dockerfile  mypage.html
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+8509c0f06599        aa                                                               "httpd -D FOREGROUND"    9 minutes ago       Up 9 minutes        0.0.0.0:8585->80/tcp                                                 determined_bell
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container exec 8509c0f06599 ls /var/www/localhost/htdocs
+index.html
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container exec 8509c0f06599 cat /var/www/localhost/htdocs/index.html
+<html><body><h1>It works!</h1></body></html>
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:latest -t aa:3 .
+Sending build context to Docker daemon  3.072kB
+Step 1/5 : FROM alpine
+ ---> 055936d39205
+Step 2/5 : RUN apk update
+ ---> Using cache
+ ---> 55ccd72476a8
+Step 3/5 : RUN apk add apache2
+ ---> Using cache
+ ---> 0fd4e53cde92
+Step 4/5 : CMD httpd -D FOREGROUND
+ ---> Using cache
+ ---> 378060424031
+Step 5/5 : COPY mypage.html /var/www/localhost/htdocs
+ ---> 8c124839f06f
+Successfully built 8c124839f06f
+Successfully tagged aa:latest
+Successfully tagged aa:3
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image history aa
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+8c124839f06f        13 seconds ago      /bin/sh -c #(nop) COPY file:b1590631846271...   22B     
+378060424031        15 minutes ago      /bin/sh -c #(nop)  CMD ["httpd" "-D" "FORE...   0B      
+0fd4e53cde92        3 hours ago         /bin/sh -c apk add apache2                      3.6MB   
+55ccd72476a8        3 hours ago         /bin/sh -c apk update                           1.31MB  
+055936d39205        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B      
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:a86aea1f3a7d68f...   5.53MB  
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ls
+Dockerfile  mypage.html
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cd ..
+
+/c/Users/Dell lap/docker-workshop/jun10 >cd ..
+
+/c/Users/Dell lap/docker-workshop >ls
+'New folder'                                feb11        may9
+ al-ap                                      feb25        mysql.tar
+ apr1                                       ghost.tar    nginx-alpine.tar
+ apr22                                      index.html   nginx.conf
+ apr8                                       jan21        pinger
+ bash-alpine                                jan28        repositories.json
+ code                                       jan7         spring-petclinic
+ command-dec24-2.txt                        jun10        ubuntu-nginx
+ command-withoutput-dec26-dec27-p6908.log   mar11        us-mar11
+ commanddec24-1.txt                         mar4         userjan11-csr.crt
+ day2                                       may13        userjan11.pem
+ docker-compose.yml                         may20
+
+/c/Users/Dell lap/docker-workshop >cd -
+/c/Users/Dell lap/docker-workshop/jun10
+
+/c/Users/Dell lap/docker-workshop/jun10 >d aa
+-bash: d: command not found
+
+/c/Users/Dell lap/docker-workshop/jun10 >cd aa
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ls
+Dockerfile  mypage.html
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:latest -t aa:3             "docker image build" requires exactly 1 argument.
+See 'docker image build --help'.
+
+Usage:  docker image build [OPTIONS] PATH | URL | -
+
+Build an image from a Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ls
+Dockerfile  mypage.html
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+CMD ["httpd", "-D", "FOREGROUND"]
+COPY mypage1.html /var/www/localhost/htdocs
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:latest -t aa:3 .
+Sending build context to Docker daemon  3.072kB
+Step 1/5 : FROM alpine
+ ---> 055936d39205
+Step 2/5 : RUN apk update
+ ---> Using cache
+ ---> 55ccd72476a8
+Step 3/5 : RUN apk add apache2
+ ---> Using cache
+ ---> 0fd4e53cde92
+Step 4/5 : CMD httpd -D FOREGROUND
+ ---> Using cache
+ ---> 378060424031
+Step 5/5 : COPY mypage1.html /var/www/localhost/htdocs
+COPY failed: stat /var/lib/docker/tmp/docker-builder938686859/mypage1.html: no such file or directory
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:latest -t aa:3 .
+Sending build context to Docker daemon  3.072kB
+Step 1/5 : FROM alpine
+ ---> 055936d39205
+Step 2/5 : RUN apk update
+ ---> Using cache
+ ---> 55ccd72476a8
+Step 3/5 : RUN apk add apache2
+ ---> Using cache
+ ---> 0fd4e53cde92
+Step 4/5 : CMD httpd -D FOREGROUND
+ ---> Using cache
+ ---> 378060424031
+Step 5/5 : COPY mypage.html /var/www/localhost/htdocs
+ ---> Using cache
+ ---> 8c124839f06f
+Successfully built 8c124839f06f
+Successfully tagged aa:latest
+Successfully tagged aa:3
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+8509c0f06599        378060424031                                                     "httpd -D FOREGROUND"    18 minutes ago      Up 18 minutes       0.0.0.0:8585->80/tcp                                                 determined_bell
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container rm -f 8509c0f06599
+8509c0f06599
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container run -d -p 8585:80 aa
+fc7f36bf9b4d3b6b6c36f817ba5fa3670305cf3d331a874d5019d2466dca4e94
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+fc7f36bf9b4d        aa                                                               "httpd -D FOREGROUND"    3 seconds ago       Up 2 seconds        0.0.0.0:8585->80/tcp                                                 infallible_swanson
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
