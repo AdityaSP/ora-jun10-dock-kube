@@ -1,1 +1,495 @@
+/home/docker >docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                                            COMMAND                  CREATED             STATUS              PORTS                                                                                NAMES
 
+/home/docker >docker container ls -a| grep -v k8s
+CONTAINER ID        IMAGE                                                                            COMMAND                  CREATED             STATUS                       P                ORTS                                                                NAMES
+61d9012406b8        nginx-app                                                                        "nginx -g 'daemon ..."   18 hours ago        Exited (255) 4 minutes ago   0                .0.0.0:9090->80/tcp                                                 silly_colden
+
+/home/docker >docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                                            COMMAND                  CREATED             STATUS              PORTS                                                                                NAMES
+
+/home/docker >docker container ls -a
+CONTAINER ID        IMAGE                                                                            COMMAND                  CREATED             STATUS                       P                ORTS                                                                NAMES
+9e7dff393b72        k8s.gcr.io/k8s-dns-sidecar-amd64                                                 "/sidecar --v=2 --..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_sidecar_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_11
+0ace968ba65e        k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64                                           "/dnsmasq-nanny -v..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_dnsmasq_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_10
+1555c5c75db1        k8s.gcr.io/heapster-grafana-amd64                                                "/run.sh"                4 minutes ago       Up 4 minutes                                                                                                      k8s_grafana_                influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_62
+45948d070b1a        gcr.io/google_containers/metrics-server-amd64                                    "/metrics-server -..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_metrics-                server_metrics-server-bb9ffc6b8-c4bsh_kube-system_ac742fe8-2f94-11e9-8d17-080027                326ca6_63
+6ca948c9b20a        k8s.gcr.io/kubernetes-dashboard-amd64                                            "/dashboard --inse..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_kubernet                es-dashboard_kubernetes-dashboard-77d8b98585-mftdb_kube-system_1806d17c-804a-11e                9-a140-080027326ca6_2
+09c0495e8b13        k8s.gcr.io/k8s-dns-kube-dns-amd64                                                "/kube-dns --domai..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_kubedns_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_9
+1b885e1fb69f        k8s.gcr.io/heapster-influxdb-amd64                                               "influxd --config ..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_influxdb                _monitoring-influxdb-66946c9f58-h5lhw_kube-system_abf955f0-2f94-11e9-8d17-080027                326ca6_64
+a6c2cc80cc47        quay.io/kubernetes-ingress-controller/nginx-ingress-controll                er   "/usr/bin/dumb-ini..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_nginx-in                gress-controller_nginx-ingress-controller-zjd74_kube-system_ab42b3da-2f94-11e9-8                d17-080027326ca6_404
+3c6b106ca93f        k8s.gcr.io/heapster-amd64                                                        "/heapster --sourc..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_heapster                _heapster-xnbjb_kube-system_aafb3c7c-2f94-11e9-8d17-080027326ca6_62
+20bc4f72c577        k8s.gcr.io/heapster-influxdb-amd64                                               "influxd --config ..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_influxdb                _influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_65
+f46c5fe6400a        k8s.gcr.io/heapster-amd64                                                        "/heapster --sourc..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_heapster                _heapster-546c9964c6-2w8ld_kube-system_ac314ae9-2f94-11e9-8d17-080027326ca6_62
+6c9b1e081645        k8s.gcr.io/defaultbackend                                                        "/server"                4 minutes ago       Up 4 minutes                                                                                                      k8s_default-                http-backend_default-http-backend-cvzhd_kube-system_ab6b020b-2f94-11e9-8d17-0800                27326ca6_235
+d76baa4f7465        gcr.io/kubernetes-helm/tiller                                                    "/tiller"                4 minutes ago       Up 4 minutes                                                                                                      k8s_tiller_t                iller-deploy-5b7c59888b-6rbgl_kube-system_42cc5a34-3c10-11e9-a9d7-080027326ca6_2                54
+7efb05722aac        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_kube                rnetes-dashboard-77d8b98585-mftdb_kube-system_1806d17c-804a-11e9-a140-080027326c                a6_2
+f79dd9152084        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_kube                -dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_9
+fb8594497eea        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_infl                uxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_62
+f576cd0c7fc6        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_moni                toring-influxdb-66946c9f58-h5lhw_kube-system_abf955f0-2f94-11e9-8d17-080027326ca                6_61
+016adcc6a53c        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_heap                ster-xnbjb_kube-system_aafb3c7c-2f94-11e9-8d17-080027326ca6_61
+08cc4163dd52        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                 0                .0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:18080->18080/tcp   k8s_POD_ngin                x-ingress-controller-zjd74_kube-system_ab42b3da-2f94-11e9-8d17-080027326ca6_61
+681c37cf3986        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_till                er-deploy-5b7c59888b-6rbgl_kube-system_42cc5a34-3c10-11e9-a9d7-080027326ca6_54
+b4e91e29d9b8        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_defa                ult-http-backend-cvzhd_kube-system_ab6b020b-2f94-11e9-8d17-080027326ca6_63
+e451381fe3da        prom/prometheus                                                                  "/bin/prometheus -..."   4 minutes ago       Up 4 minutes                                                                                                      k8s_promethe                us_prometheus-deployment-79c7cf44fc-xdj6l_monitoring_ed3806b7-803f-11e9-a140-080                027326ca6_2
+2dcaf6f4c0d4        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_heap                ster-546c9964c6-2w8ld_kube-system_ac314ae9-2f94-11e9-8d17-080027326ca6_61
+5e5c8721cd03        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_metr                ics-server-bb9ffc6b8-c4bsh_kube-system_ac742fe8-2f94-11e9-8d17-080027326ca6_60
+4fe508d3cd83        k8s.gcr.io/heapster-grafana-amd64                                                "/run.sh"                4 minutes ago       Up 4 minutes                                                                                                      k8s_grafana_                monitoring-grafana-65757b9656-h4fbs_kube-system_abcaee65-2f94-11e9-8d17-08002732                6ca6_61
+ef56282ed381        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_prom                etheus-deployment-79c7cf44fc-xdj6l_monitoring_ed3806b7-803f-11e9-a140-080027326c                a6_2
+8701d9a6f70c        gcr.io/google-containers/kube-addon-manager                                      "/opt/kube-addons.sh"    4 minutes ago       Up 4 minutes                                                                                                      k8s_kube-add                on-manager_kube-addon-manager-minikube_kube-system_c4c3188325a93a2d7fb1714e1abf1                259_65
+92777e21a2e6        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_moni                toring-grafana-65757b9656-h4fbs_kube-system_abcaee65-2f94-11e9-8d17-080027326ca6                _61
+ace6ee6f54b8        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 4 minutes ago       Up 4 minutes                                                                                                      k8s_POD_kube                -addon-manager-minikube_kube-system_c4c3188325a93a2d7fb1714e1abf1259_61
+61d9012406b8        nginx-app                                                                        "nginx -g 'daemon ..."   18 hours ago        Exited (255) 5 minutes ago   0                .0.0.0:9090->80/tcp                                                 silly_colden
+b016c0919883        quay.io/kubernetes-ingress-controller/nginx-ingress-controll                er   "/usr/bin/dumb-ini..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_nginx-in                gress-controller_nginx-ingress-controller-zjd74_kube-system_ab42b3da-2f94-11e9-8                d17-080027326ca6_403
+d1e5441179f9        k8s.gcr.io/k8s-dns-sidecar-amd64                                                 "/sidecar --v=2 --..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_sidecar_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_10
+133d668af889        k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64                                           "/dnsmasq-nanny -v..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_dnsmasq_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_9
+7b04b29bc35a        gcr.io/google_containers/metrics-server-amd64                                    "/metrics-server -..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_metrics-                server_metrics-server-bb9ffc6b8-c4bsh_kube-system_ac742fe8-2f94-11e9-8d17-080027                326ca6_62
+e81c6b17de4c        k8s.gcr.io/defaultbackend                                                        "/server"                23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_default-                http-backend_default-http-backend-cvzhd_kube-system_ab6b020b-2f94-11e9-8d17-0800                27326ca6_234
+edac557a9801        k8s.gcr.io/k8s-dns-kube-dns-amd64                                                "/kube-dns --domai..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_kubedns_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_8
+09af5ed65854        k8s.gcr.io/heapster-influxdb-amd64                                               "influxd --config ..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_influxdb                _monitoring-influxdb-66946c9f58-h5lhw_kube-system_abf955f0-2f94-11e9-8d17-080027                326ca6_63
+bf3cc59bfedc        k8s.gcr.io/kubernetes-dashboard-amd64                                            "/dashboard --inse..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_kubernet                es-dashboard_kubernetes-dashboard-77d8b98585-mftdb_kube-system_1806d17c-804a-11e                9-a140-080027326ca6_1
+251c92012239        k8s.gcr.io/heapster-amd64                                                        "/heapster --sourc..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_heapster                _heapster-546c9964c6-2w8ld_kube-system_ac314ae9-2f94-11e9-8d17-080027326ca6_61
+a7048d445674        k8s.gcr.io/heapster-grafana-amd64                                                "/run.sh"                23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_grafana_                influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_61
+51a494c27f74        gcr.io/kubernetes-helm/tiller                                                    "/tiller"                23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_tiller_t                iller-deploy-5b7c59888b-6rbgl_kube-system_42cc5a34-3c10-11e9-a9d7-080027326ca6_2                53
+9a4d5616dbbe        k8s.gcr.io/heapster-grafana-amd64                                                "/run.sh"                23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_grafana_                monitoring-grafana-65757b9656-h4fbs_kube-system_abcaee65-2f94-11e9-8d17-08002732                6ca6_60
+212ecdf62937        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_kube                -dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_8
+91e92a5a3379        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_moni                toring-influxdb-66946c9f58-h5lhw_kube-system_abf955f0-2f94-11e9-8d17-080027326ca                6_60
+521751337b78        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_kube                rnetes-dashboard-77d8b98585-mftdb_kube-system_1806d17c-804a-11e9-a140-080027326c                a6_1
+0c8417171794        prom/prometheus                                                                  "/bin/prometheus -..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_promethe                us_prometheus-deployment-79c7cf44fc-xdj6l_monitoring_ed3806b7-803f-11e9-a140-080                027326ca6_1
+b1444b3aaef8        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_metr                ics-server-bb9ffc6b8-c4bsh_kube-system_ac742fe8-2f94-11e9-8d17-080027326ca6_59
+f985482f5077        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_defa                ult-http-backend-cvzhd_kube-system_ab6b020b-2f94-11e9-8d17-080027326ca6_62
+324c408eca99        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_heap                ster-546c9964c6-2w8ld_kube-system_ac314ae9-2f94-11e9-8d17-080027326ca6_60
+a89383fd803d        k8s.gcr.io/heapster-influxdb-amd64                                               "influxd --config ..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_influxdb                _influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_64
+660412ef3eee        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_till                er-deploy-5b7c59888b-6rbgl_kube-system_42cc5a34-3c10-11e9-a9d7-080027326ca6_53
+060a16cca51d        gcr.io/google-containers/kube-addon-manager                                      "/opt/kube-addons.sh"    23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_kube-add                on-manager_kube-addon-manager-minikube_kube-system_c4c3188325a93a2d7fb1714e1abf1                259_64
+765bacf21029        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_moni                toring-grafana-65757b9656-h4fbs_kube-system_abcaee65-2f94-11e9-8d17-080027326ca6                _60
+6b1cbb6994b9        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_prom                etheus-deployment-79c7cf44fc-xdj6l_monitoring_ed3806b7-803f-11e9-a140-080027326c                a6_1
+252eb02f8a94        k8s.gcr.io/heapster-amd64                                                        "/heapster --sourc..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_heapster                _heapster-xnbjb_kube-system_aafb3c7c-2f94-11e9-8d17-080027326ca6_61
+0210629d2c6e        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_kube                -addon-manager-minikube_kube-system_c4c3188325a93a2d7fb1714e1abf1259_60
+2eec16806153        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago   0                .0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:18080->18080/tcp   k8s_POD_ngin                x-ingress-controller-zjd74_kube-system_ab42b3da-2f94-11e9-8d17-080027326ca6_60
+4c09b3586bda        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_infl                uxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_61
+bd0bd1e0dadc        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_heap                ster-xnbjb_kube-system_aafb3c7c-2f94-11e9-8d17-080027326ca6_60
+
+/home/docker >docker container ls -a | grep Exited
+61d9012406b8        nginx-app                                                                        "nginx -g 'daemon ..."   18 hours ago        Exited (255) 5 minutes ago   0                .0.0.0:9090->80/tcp                                                 silly_colden
+b016c0919883        quay.io/kubernetes-ingress-controller/nginx-ingress-controll                er   "/usr/bin/dumb-ini..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_nginx-in                gress-controller_nginx-ingress-controller-zjd74_kube-system_ab42b3da-2f94-11e9-8                d17-080027326ca6_403
+d1e5441179f9        k8s.gcr.io/k8s-dns-sidecar-amd64                                                 "/sidecar --v=2 --..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_sidecar_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_10
+133d668af889        k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64                                           "/dnsmasq-nanny -v..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_dnsmasq_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_9
+7b04b29bc35a        gcr.io/google_containers/metrics-server-amd64                                    "/metrics-server -..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_metrics-                server_metrics-server-bb9ffc6b8-c4bsh_kube-system_ac742fe8-2f94-11e9-8d17-080027                326ca6_62
+e81c6b17de4c        k8s.gcr.io/defaultbackend                                                        "/server"                23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_default-                http-backend_default-http-backend-cvzhd_kube-system_ab6b020b-2f94-11e9-8d17-0800                27326ca6_234
+edac557a9801        k8s.gcr.io/k8s-dns-kube-dns-amd64                                                "/kube-dns --domai..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_kubedns_                kube-dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_8
+09af5ed65854        k8s.gcr.io/heapster-influxdb-amd64                                               "influxd --config ..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_influxdb                _monitoring-influxdb-66946c9f58-h5lhw_kube-system_abf955f0-2f94-11e9-8d17-080027                326ca6_63
+bf3cc59bfedc        k8s.gcr.io/kubernetes-dashboard-amd64                                            "/dashboard --inse..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_kubernet                es-dashboard_kubernetes-dashboard-77d8b98585-mftdb_kube-system_1806d17c-804a-11e                9-a140-080027326ca6_1
+251c92012239        k8s.gcr.io/heapster-amd64                                                        "/heapster --sourc..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_heapster                _heapster-546c9964c6-2w8ld_kube-system_ac314ae9-2f94-11e9-8d17-080027326ca6_61
+a7048d445674        k8s.gcr.io/heapster-grafana-amd64                                                "/run.sh"                23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_grafana_                influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_61
+51a494c27f74        gcr.io/kubernetes-helm/tiller                                                    "/tiller"                23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_tiller_t                iller-deploy-5b7c59888b-6rbgl_kube-system_42cc5a34-3c10-11e9-a9d7-080027326ca6_2                53
+9a4d5616dbbe        k8s.gcr.io/heapster-grafana-amd64                                                "/run.sh"                23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_grafana_                monitoring-grafana-65757b9656-h4fbs_kube-system_abcaee65-2f94-11e9-8d17-08002732                6ca6_60
+212ecdf62937        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_kube                -dns-54cccfbdf8-fm9cn_kube-system_cfc65d88-77aa-11e9-bc85-080027326ca6_8
+91e92a5a3379        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_moni                toring-influxdb-66946c9f58-h5lhw_kube-system_abf955f0-2f94-11e9-8d17-080027326ca                6_60
+521751337b78        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_kube                rnetes-dashboard-77d8b98585-mftdb_kube-system_1806d17c-804a-11e9-a140-080027326c                a6_1
+0c8417171794        prom/prometheus                                                                  "/bin/prometheus -..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_promethe                us_prometheus-deployment-79c7cf44fc-xdj6l_monitoring_ed3806b7-803f-11e9-a140-080                027326ca6_1
+b1444b3aaef8        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_metr                ics-server-bb9ffc6b8-c4bsh_kube-system_ac742fe8-2f94-11e9-8d17-080027326ca6_59
+f985482f5077        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_defa                ult-http-backend-cvzhd_kube-system_ab6b020b-2f94-11e9-8d17-080027326ca6_62
+324c408eca99        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_heap                ster-546c9964c6-2w8ld_kube-system_ac314ae9-2f94-11e9-8d17-080027326ca6_60
+a89383fd803d        k8s.gcr.io/heapster-influxdb-amd64                                               "influxd --config ..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_influxdb                _influxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_64
+660412ef3eee        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_till                er-deploy-5b7c59888b-6rbgl_kube-system_42cc5a34-3c10-11e9-a9d7-080027326ca6_53
+060a16cca51d        gcr.io/google-containers/kube-addon-manager                                      "/opt/kube-addons.sh"    23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_kube-add                on-manager_kube-addon-manager-minikube_kube-system_c4c3188325a93a2d7fb1714e1abf1                259_64
+765bacf21029        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_moni                toring-grafana-65757b9656-h4fbs_kube-system_abcaee65-2f94-11e9-8d17-080027326ca6                _60
+6b1cbb6994b9        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_prom                etheus-deployment-79c7cf44fc-xdj6l_monitoring_ed3806b7-803f-11e9-a140-080027326c                a6_1
+252eb02f8a94        k8s.gcr.io/heapster-amd64                                                        "/heapster --sourc..."   23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_heapster                _heapster-xnbjb_kube-system_aafb3c7c-2f94-11e9-8d17-080027326ca6_61
+0210629d2c6e        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_kube                -addon-manager-minikube_kube-system_c4c3188325a93a2d7fb1714e1abf1259_60
+2eec16806153        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago   0                .0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:18080->18080/tcp   k8s_POD_ngin                x-ingress-controller-zjd74_kube-system_ab42b3da-2f94-11e9-8d17-080027326ca6_60
+4c09b3586bda        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_infl                uxdb-grafana-tx55c_kube-system_ab1bc183-2f94-11e9-8d17-080027326ca6_61
+bd0bd1e0dadc        gcr.io/google_containers/pause-amd64:3.0                                         "/pause"                 23 hours ago        Exited (255) 5 minutes ago                                                                                        k8s_POD_heap                ster-xnbjb_kube-system_aafb3c7c-2f94-11e9-8d17-080027326ca6_60
+
+/home/docker >
+
+/home/docker >docker container prune
+WARNING! This will remove all stopped containers.
+Are you sure you want to continue? [y/N] y
+Deleted Containers:
+61d9012406b83ec65fe23b1b46186e7bd7c611fc63d8653357ee30b9060728a5
+b016c0919883632c219902a408662f7652a189bf8e381a4aff031ff771cc1ff3
+d1e5441179f9c16a9c9784eb52c2af6e1dfcda3b847906943a1132c835f76cb9
+133d668af8892bfc034ca38f2a3e0d4594f11d36e0a553f0eeeffd4c9d5a5626
+7b04b29bc35ad7d295dde8947c24c6bcfeb26fb5fd3b56c91e2d1ea34a192608
+e81c6b17de4c580ca4530ab3eab2f202204059f9d5ebdc15bef400e90f0ef8b4
+edac557a98011c7453b972f0f3a58c169df10f9213760a6dd1e5d804ee75e9ea
+09af5ed658544997f4d55e9c5e90c355d4d9fee27dd8f585a97a3a77c098db7b
+bf3cc59bfedc353d58d08f32371ce0f520782243925e06d1a1dc944d581aff0d
+251c92012239516a4f65ed0543126ccbcb4c9e8e64a4157127a1fec7bd2ec497
+a7048d44567409f3491ca361199398e7c30e6b45d4e5589f005811ab357db2ee
+51a494c27f74d5bc7f2cfda5bb8eeaddc9b72351f566fb31997b2a4041367bab
+9a4d5616dbbe951fd886e8e0e6a74c529301f24893c8e9b2b09f71ba669c8c20
+212ecdf62937f66eebaa2336de2753b59a6e0667c2e8b57204c09a341ea125d8
+91e92a5a33790dcd6e5d7c6c9792f55ebf4b842121d973d7ee4fd3a14c744994
+521751337b78b6e982c0e0585a06da417cf1b15785f360e63521efb97ff7cab7
+0c8417171794b1766c8e813a7f7a333313c1bce661f4e05d13f587558e2ea4d5
+b1444b3aaef811db6b8dd41255e0b7741a84c3183bd2c1d13e908e8c8a13c709
+f985482f50777927ddd2f1761aeb6b397fd275f71dc2dbfb908532b8c8768ca2
+324c408eca99d44a8a88a38a0aff0ba56afb7b53d896f67c7c448ae2ae764b4a
+a89383fd803d5ddbf32d429c209c25357f958d09edb77bdf3991aebb33d2347c
+660412ef3eeeeba0541aea648336cf176f97d4977ec072b3229c23809c695b42
+060a16cca51dc08a64faef6fb93328dc6b254df43962b6d1126f91cca193eb96
+765bacf21029d4bc310660bd2ae80195b64bc77241537bb7b8ea5404057c19e2
+6b1cbb6994b96452b34abe41834d08bf767f0c5d21feb92095160424a20586b4
+252eb02f8a944439b6efaec71e01b42be785f216309f80cc54483d00c1d7f44f
+0210629d2c6e80886ecb17248dd5366e6167854ffaae4b754669c69ae54889b6
+2eec16806153ecd0b08f9822e51a1317776c9cb5fb03515e5a370079f9b060bb
+4c09b3586bdab7fe90181d7873cf736c77b686f30cbeeb9cb9877fed746a5756
+bd0bd1e0dadce0c0889385d370f71d7e15138b1c93e529eaeb01333ba1045b65
+
+Total reclaimed space: 1.567MB
+
+/home/docker >
+
+/home/docker >docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                                            COMMAND                  CREATED             STATUS              PORTS                                                                                NAMES
+
+/home/docker >docker container ls -a| grep -v k8s
+CONTAINER ID        IMAGE                                                                            COMMAND                  CREATED             STATUS              PORTS                                                                                NAMES
+
+/home/docker >docker image ls nginx-app
+REPOSITORY          TAG                 IMAGE ID            CREATED                             SIZE
+nginx-app           latest              d0e559c90ede        18 hours ago                        128MB
+
+/home/docker >ls
+
+/home/docker >ls -ltra
+total 0
+drwxr-xr-x 4 root   root   0 Jan 23  2018 ..
+drwx------ 2 docker docker 0 Jun 11 04:10 .ssh
+drwxr-xr-x 3 docker docker 0 Jun 11 04:10 .
+
+/home/docker >touch hello.txt
+
+/home/docker >cd /d
+d/    data/ dev/
+
+/home/docker >cd /d
+d/    data/ dev/
+
+/home/docker >cd /d/docker-workshop/
+
+/d/docker-workshop >ls
+ASPNETCoreDockerMicroservices-master  jun7
+Code.NET-Core-Microservices           kube-workshop
+DockerToolbox.exe                     kubectl.exe
+Dockerfile                            may7
+Dockerfile.txt                        minikube.exe
+LICENSE                               newrole.yml
+admin_user.yml                        nexus
+alpine-Dockerfile                     nginx
+aug13                                 nginx.conf
+aug17.history.txt                     oct8
+aug27                                 pod-reader.yml
+aug6                                  rancher
+azure-demo                            role-binding-pod-reader.yml
+cmder.zip                             sg-dec3
+dec10-ora                             tiller.exe
+docker-compose.yml                    ubuntu-Dockerfile
+helm.exe                              uni-dec21-dock-kube
+index.html                            uni-dec21-dock-kube.rar
+jan7                                  vagrant-kube-setup
+jul23-27                              vagrant-ubuntu
+jul30
+
+/d/docker-workshop >cd
+
+/home/docker >
+
+/home/docker >cd /c/Users/
+
+/c/Users >ls
+'All Users'  'Default User'     'Dell lap'   desktop.ini       myfolder
+ Default      Default.migrated   Public      docker-workshop
+
+/c/Users >cd Dell\ lap/
+
+/c/Users/Dell lap >cd docker-workshop/
+
+/c/Users/Dell lap/docker-workshop >cd jun10/
+
+/c/Users/Dell lap/docker-workshop/jun10 >ls
+ dockers-slightedge.pptx  '~$dockers-slightedge.pptx'
+
+/c/Users/Dell lap/docker-workshop/jun10 >ls
+ dockers-slightedge.pptx  '~$dockers-slightedge.pptx'
+ rough-diag.pptx          '~$rough-diag.pptx'
+
+/c/Users/Dell lap/docker-workshop/jun10 >docker image history nginx
+IMAGE               CREATED             CREATED BY                                                      SIZE                COMMENT
+62c261073ecf        6 days ago          /bin/sh -c #(nop)  CMD ["nginx" "-g" "da                em...   0B
+<missing>           6 days ago          /bin/sh -c #(nop)  STOPSIGNAL SIGTERM                           0B
+<missing>           6 days ago          /bin/sh -c #(nop)  EXPOSE 80                                    0B
+<missing>           6 days ago          /bin/sh -c ln -sf /dev/stdout /var/log/n                gi...   22B
+<missing>           6 days ago          /bin/sh -c set -x     && addgroup --syst                em...   54MB
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV PKG_RELEASE=1~str                etch    0B
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV NJS_VERSION=0.3.2                        0B
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV NGINX_VERSION=1.1                7.0     0B
+<missing>           4 weeks ago         /bin/sh -c #(nop)  LABEL maintainer=NGIN                X ...   0B
+<missing>           4 weeks ago         /bin/sh -c #(nop)  CMD ["bash"]                                 0B
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:fcb9328ea4c11                56...   55.3MB
+
+/c/Users/Dell lap/docker-workshop/jun10 >
+
+/c/Users/Dell lap/docker-workshop/jun10 >mkdir                                                   aa
+
+/c/Users/Dell lap/docker-workshop/jun10 >cd aa
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ls
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi                                                   Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >ca                                                  t Dockerfile
+FROM alpine
+RUN apk update
+RUN apk install apache2
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               latest              62c261073ecf        6 days ago          109MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image pull nginx:1
+1: Pulling from library/nginx
+fc7181108d40: Pull complete
+c4277fc40ec2: Pull complete
+780053e98559: Pull complete
+Digest: sha256:bdbf36b7f1f77ffe7bd2a32e59235dff6ecf131e3b6b5b96061c652f30685f3a
+Status: Downloaded newer image for nginx:1
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image pull nginx:latest
+latest: Pulling from library/nginx
+Digest: sha256:bdbf36b7f1f77ffe7bd2a32e59235dff6ecf131e3b6b5b96061c652f30685f3a
+Status: Downloaded newer image for nginx:latest
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               1                   719cd2e3ed04        5 hours ago         109MB
+nginx               latest              719cd2e3ed04        5 hours ago         109MB
+nginx               <none>              62c261073ecf        6 days ago          109MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image rm 62c261073ecf
+Error response from daemon: conflict: unable to delete 62c261073ecf (cannot be forced) - image has dependent child images
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls nginx-app
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx-app           latest              d0e559c90ede        18 hours ago        128MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image rm nginx-app
+Untagged: nginx-app:latest
+Deleted: sha256:d0e559c90ede609248b8552bcc1b8266f583f7c56c0004c3f7223c5f87ce9fb1
+Deleted: sha256:32e19989a128b5af2054b48e28c3c3e092400fa66f70e56a2c9e72e84adc1cfe
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image rm 62c261073ecf
+Untagged: nginx@sha256:12db363acf5b2d2f9f5fed240e228a04692bdac68402430fbd2f720c3a967d01
+Deleted: sha256:62c261073ecffe22a28f2ba67760a9320bc4bfe8136a83ba9b579983346564be
+Deleted: sha256:26fcb2a784c12d7eb264cffb01ab151205a9b76544ff95bbb50ad12af5522194
+Deleted: sha256:42d8e0f63ec15a63685dafc91005f57f0a335c0148f1106ead653da8710b541c
+Deleted: sha256:6270adb5794c6987109e54af00ab456977c5d5cc6f1bc52c1ce58d32ec0f15f4
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               1                   719cd2e3ed04        5 hours ago         109MB
+nginx               latest              719cd2e3ed04        5 hours ago         109MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:1 -t aa:latest .           Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM alpine
+latest: Pulling from library/alpine
+e7c96db7181b: Pull complete
+Digest: sha256:769fddc7cc2f0a1c35abb2f91432e8beecf83916c421420e6a6da9f8975464b6
+Status: Downloaded newer image for alpine:latest
+ ---> 055936d39205
+Step 2/3 : RUN apk update
+ ---> Running in 6dab54e73c21
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+v3.9.4-24-g4e2ff29bbe [http://dl-cdn.alpinelinux.org/alpine/v3.9/main]
+v3.9.4-25-g65097c9cdc [http://dl-cdn.alpinelinux.org/alpine/v3.9/community]
+OK: 9770 distinct packages available
+ ---> 22d6e0d0e820
+Removing intermediate container 6dab54e73c21
+Step 3/3 : RUN apk install apache2
+ ---> Running in 55716620aa12
+ERROR: 'install' is not an apk command. See 'apk --help'.
+The command '/bin/sh -c apk install apache2' returned a non-zero code: 1
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls alpine
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+alpine              latest              055936d39205        4 weeks ago         5.53MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls | grep 22d6e0d0e820
+<none>                                                           <none>              22d6e0d0e820        3 minutes ago       6.85MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk install apache2
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >vi Dockerfile
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:1 -t aa:latest .
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM alpine
+ ---> 055936d39205
+Step 2/3 : RUN apk update
+ ---> Using cache
+ ---> 22d6e0d0e820
+Step 3/3 : RUN apk add apache2
+ ---> Running in 32b7996dde83
+(1/6) Installing libuuid (2.33-r0)
+(2/6) Installing apr (1.6.5-r0)
+(3/6) Installing expat (2.2.6-r0)
+(4/6) Installing apr-util (1.6.1-r5)
+(5/6) Installing pcre (8.42-r1)
+(6/6) Installing apache2 (2.4.39-r0)
+Executing apache2-2.4.39-r0.pre-install
+Executing busybox-1.29.3-r10.trigger
+OK: 9 MiB in 20 packages
+ ---> a9dce3373cea
+Removing intermediate container 32b7996dde83
+Successfully built a9dce3373cea
+Successfully tagged aa:1
+Successfully tagged aa:latest
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls aa
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+aa                  1                   a9dce3373cea        2 minutes ago       10.4MB
+aa                  latest              a9dce3373cea        2 minutes ago       10.4MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls | grep 22d6e0d0e820
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls | grep 22d6e0d
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls -a | grep 22d6e0d
+<none>                                                           <none>              22d6e0d0e820        23 minutes ago      6.85MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls aa
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+aa                  1                   a9dce3373cea        17 minutes ago      10.4MB
+aa                  latest              a9dce3373cea        17 minutes ago      10.4MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image history aa
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+a9dce3373cea        18 minutes ago      /bin/sh -c apk add apache2                      3.6MB   
+22d6e0d0e820        24 minutes ago      /bin/sh -c apk update                           1.31MB  
+055936d39205        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B      
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:a86aea1f3a7d68f...   5.53MB  
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image rm 22d6e0d0e820
+Error response from daemon: conflict: unable to delete 22d6e0d0e820 (cannot be forced) - image has dependent child images
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image history nginx
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+719cd2e3ed04        5 hours ago         /bin/sh -c #(nop)  CMD ["nginx" "-g" "daem...   0B      
+<missing>           5 hours ago         /bin/sh -c #(nop)  STOPSIGNAL SIGTERM           0B      
+<missing>           5 hours ago         /bin/sh -c #(nop)  EXPOSE 80                    0B      
+<missing>           5 hours ago         /bin/sh -c ln -sf /dev/stdout /var/log/ngi...   22B     
+<missing>           5 hours ago         /bin/sh -c set -x     && addgroup --system...   54MB    
+<missing>           5 hours ago         /bin/sh -c #(nop)  ENV PKG_RELEASE=1~stretch    0B      
+<missing>           5 hours ago         /bin/sh -c #(nop)  ENV NJS_VERSION=0.3.2        0B      
+<missing>           5 hours ago         /bin/sh -c #(nop)  ENV NGINX_VERSION=1.17.0     0B      
+<missing>           5 hours ago         /bin/sh -c #(nop)  LABEL maintainer=NGINX ...   0B      
+<missing>           6 hours ago         /bin/sh -c #(nop)  CMD ["bash"]                 0B      
+<missing>           6 hours ago         /bin/sh -c #(nop) ADD file:5ffb798d6408941...   55.3MB  
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls aa
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+aa                  1                   a9dce3373cea        22 minutes ago      10.4MB
+aa                  latest              a9dce3373cea        22 minutes ago      10.4MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls -a | grep 22d6e0d
+<none>                                                           <none>              22d6e0d0e820        31 minutes ago      6.85MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image history aa
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+a9dce3373cea        25 minutes ago      /bin/sh -c apk add apache2                      3.6MB   
+22d6e0d0e820        32 minutes ago      /bin/sh -c apk update                           1.31MB  
+055936d39205        4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B      
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:a86aea1f3a7d68f...   5.53MB  
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build -t aa:1 -t aa:latest .
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM alpine
+ ---> 055936d39205
+Step 2/3 : RUN apk update
+ ---> Using cache
+ ---> 22d6e0d0e820
+Step 3/3 : RUN apk add apache2
+ ---> Using cache
+ ---> a9dce3373cea
+Successfully built a9dce3373cea
+Successfully tagged aa:1
+Successfully tagged aa:latest
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image build --no-cache -t aa:1 -t aa:latest .
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM alpine
+ ---> 055936d39205
+Step 2/3 : RUN apk update
+ ---> Running in 6762d90fc533
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+v3.9.4-24-g4e2ff29bbe [http://dl-cdn.alpinelinux.org/alpine/v3.9/main]
+v3.9.4-25-g65097c9cdc [http://dl-cdn.alpinelinux.org/alpine/v3.9/community]
+OK: 9770 distinct packages available
+ ---> 55ccd72476a8
+Removing intermediate container 6762d90fc533
+Step 3/3 : RUN apk add apache2
+ ---> Running in b28635e79a5d
+(1/6) Installing libuuid (2.33-r0)
+(2/6) Installing apr (1.6.5-r0)
+(3/6) Installing expat (2.2.6-r0)
+(4/6) Installing apr-util (1.6.1-r5)
+(5/6) Installing pcre (8.42-r1)
+(6/6) Installing apache2 (2.4.39-r0)
+Executing apache2-2.4.39-r0.pre-install
+Executing busybox-1.29.3-r10.trigger
+OK: 9 MiB in 20 packages
+ ---> 0fd4e53cde92
+Removing intermediate container b28635e79a5d
+Successfully built 0fd4e53cde92
+Successfully tagged aa:1
+Successfully tagged aa:latest
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls -a | grep 22d6e0d0e820
+<none>                                                           <none>              22d6e0d0e820        37 minutes ago      6.85MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls -a | grep a9dce3373cea
+<none>                                                           <none>              a9dce3373cea        31 minutes ago      10.4MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image prune
+WARNING! This will remove all dangling images.
+Are you sure you want to continue? [y/N] y
+Deleted Images:
+deleted: sha256:a9dce3373cea64bc7c139373030b293e99614868cabf9735c2b0918d4f9fc7fe
+deleted: sha256:d670f9ed77a0134af0fdc7e235365a4ed33bb47ab842fa73db7e6a3f70ed15bd
+
+Total reclaimed space: 3.603MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls -a | grep 22d6e0d0e820
+<none>                                                           <none>              22d6e0d0e820        39 minutes ago      6.85MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls -a | grep a9dce3373cea
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image prune
+WARNING! This will remove all dangling images.
+Are you sure you want to continue? [y/N] y
+Total reclaimed space: 0B
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image ls -a | grep 22d6e0d0e820
+<none>                                                           <none>              22d6e0d0e820        40 minutes ago      6.85MB
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >docker image rm -f 22d6e0d0e820
+Deleted: sha256:22d6e0d0e820717eae21e5cab6da6504d77d64ff6900e8459a173bd5a8ccff53
+
+/c/Users/Dell lap/docker-workshop/jun10/aa >
