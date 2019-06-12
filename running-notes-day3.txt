@@ -831,3 +831,27 @@ Client Version: version.Info{Major:"1", Minor:"9", GitVersion:"v1.9.0", GitCommi
 Server Version: version.Info{Major:"", Minor:"", GitVersion:"v1.9.0", GitCommit:"925c127ec6b946659ad0fd596fa959be43f0cc05", GitTreeState:"clean", BuildDate:"2018-01-26T19:04:38Z", GoVersion:"go1.9.1", Compiler:"gc", Platform:"linux/amd64"}
 Dell lap@Dell ~
 λ
+
+
+λ kubectl get pods
+No resources found.
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s/pod (master)
+λ kubectl apply -f pod-helloworld.yml
+pod "my-nginx" created
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s/pod (master)
+λ kubectl get pods
+NAME       READY     STATUS              RESTARTS   AGE
+my-nginx   0/1       ContainerCreating   0          23s
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s/pod (master)
+λ kubectl get pods
+NAME       READY     STATUS              RESTARTS   AGE
+my-nginx   0/1       ContainerCreating   0          34s
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s/pod (master)
+λ kubectl get pods
+NAME       READY     STATUS    RESTARTS   AGE
+my-nginx   1/1       Running   0          1m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s/pod (master)
+λ pwd
+/c/Users/Dell lap/docker-workshop/jun10/ora-jun10-dock-kube/k8s/pod
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s/pod (master)
+λ
