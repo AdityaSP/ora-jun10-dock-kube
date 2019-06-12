@@ -616,3 +616,69 @@ f8998c3d47fec4929d6c9d1ce4a1970f58194f9447da148f6ed75a3fc0bf3bd2
                     "IPAddress": "172.18.0.4",
 
 /home/docker >
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+/home/docker >docker container run --network c1-c2-net --ip 172.18.0.50 --name c5 -d aa
+9a654aa19e272de8074bb73f6f18f4584adc371daa5c1e69a1d1e3e5727b67fe
+docker: Error response from daemon: user specified IP address is supported only when connecting to networks with user configured subnets.
+
+/home/docker >docker network create myownnet --subnet 172.50.0.0/16 --gateway 172.50.0.1
+cf56c8639c866074ab2116a13a7a0d71f9e761784e7f275a0eb63ccc6014b199
+
+/home/docker >docker network inspect myownnet
+[
+    {
+        "Name": "myownnet",
+        "Id": "cf56c8639c866074ab2116a13a7a0d71f9e761784e7f275a0eb63ccc6014b199",
+        "Created": "2019-06-12T05:12:48.417222539Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.50.0.0/16",
+                    "Gateway": "172.50.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {},
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+/home/docker >docker container run --network myownnet --ip 172.50.50.50 --name c6 -d aa
+35475502ea3e1b8b35c4222868d0ed9ce85b3bcf19172088ccc07743a3dbe246
+
+/home/docker >docker container inspect c6 | grep -i ipaddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "",
+                    "IPAddress": "172.50.50.50",
+
+/home/docker >docker container rm -f c6
+c6
+
+/home/docker >docker container run --network myownnet --ip 172.50.50.50 --name c6 -d aa
+4bff99e0feca082cf9f6696175dbc0224e6094051f2f2edbe939ef3aa33e9ba2
+
+/home/docker >docker container inspect c6 | grep -i ipaddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "",
+                    "IPAddress": "172.50.50.50",
+
+/home/docker >
