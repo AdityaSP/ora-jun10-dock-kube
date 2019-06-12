@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: helloworld-dep
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: helloworld
+    spec:
+      containers:
+      - name: web
+        image: al-ap
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: httpport
+          containerPort: 80
