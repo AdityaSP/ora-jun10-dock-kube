@@ -964,3 +964,56 @@ helloworld-controller-v97ll   1/1       Running   0          7m        172.17.0.
 helloworld-controller-zznrj   1/1       Running   0          12m       172.17.0.15   minikube
 Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
 λ
+
+
+---------------------------------------------------------------------------------------------------------
+
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS    RESTARTS   AGE       LABELS
+helloworld-controller-v97ll   1/1       Running   0          15m       app=helloworld
+helloworld-controller-zznrj   1/1       Running   0          21m       app=helloworld
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get rc
+NAME                    DESIRED   CURRENT   READY     AGE
+helloworld-controller   2         2         2         22m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl delete rc rc/rc-helloworld.yml
+error: there is no need to specify a resource type as a separate argument when passing arguments in resource/name form (e.g. 'D:\docker-workshop\kubectl.exe get resource/<resource_name>' instead of 'D:\docker-workshop\kubectl.exe get resource resource/<resource_name>'
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl delete -f rc/rc-helloworld.yml
+replicationcontroller "helloworld-controller" deleted
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get rc
+No resources found.
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+No resources found.
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl apply -f pod/pod-helloworld.yml
+pod "my-nginx" created
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods --show-labels
+NAME       READY     STATUS    RESTARTS   AGE       LABELS
+my-nginx   1/1       Running   0          16s       app=helloworld
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl apply -f rc/rc-helloworld.yml
+replicationcontroller "helloworld-controller" created
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS    RESTARTS   AGE       LABELS
+helloworld-controller-plvj8   1/1       Running   0          8s        app=helloworld
+my-nginx                      1/1       Running   0          1m        app=helloworld
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get rc
+NAME                    DESIRED   CURRENT   READY     AGE
+helloworld-controller   2         2         2         31s
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl delete pod my-nginx
+pod "my-nginx" deleted
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS    RESTARTS   AGE       LABELS
+helloworld-controller-nvmfs   1/1       Running   0          11s       app=helloworld
+helloworld-controller-plvj8   1/1       Running   0          1m        app=helloworld
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ
