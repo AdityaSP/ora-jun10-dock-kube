@@ -682,3 +682,122 @@ c6
                     "IPAddress": "172.50.50.50",
 
 /home/docker >
+
+
+
+-------------------------------------------------------------------------------------------
+/home/docker >docker network create blog-nw
+68a008354d70389cad3d496f75ff23e8faf1f0cbaff2cdbd3e13b9fcbacb7b43
+
+/home/docker >docker network inspect blog-nw
+[
+    {
+        "Name": "blog-nw",
+        "Id": "68a008354d70389cad3d496f75ff23e8faf1f0cbaff2cdbd3e13b9fcbacb7b43",
+        "Created": "2019-06-12T06:16:38.976844053Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.20.0.0/16",
+                    "Gateway": "172.20.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {},
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+/home/docker >
+
+/home/docker >docker container run -d --network blog-nw --name blog-db -v /tmp/blog/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=welcome mysql:5.7
+1081e6922a7bf5e0e00f0f6a019b6287d88b4535bc65362608f148e026b8c352
+
+/home/docker >docker container run -d --network blog-nw --name blog-ghost -p 8989:2368 -e database__client=mysql -e database__connection__host=blog-db -e database__connection__user=root -e database__connection__password=welcome -e database__connection__database=ghost ghost:1-alpine
+93f5042054932720798bce59c4d694eba3602cd786a5dd9811cf58706e0dc368
+
+/home/docker >docker container exec -it blog-db mysql -uroot -pwelcome
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 34
+Server version: 5.7.25 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| ghost              |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (1.08 sec)
+
+mysql> use ghost;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++------------------------+
+| Tables_in_ghost        |
++------------------------+
+| accesstokens           |
+| app_fields             |
+| app_settings           |
+| apps                   |
+| brute                  |
+| client_trusted_domains |
+| clients                |
+| invites                |
+| migrations             |
+| migrations_lock        |
+| permissions            |
+| permissions_apps       |
+| permissions_roles      |
+| permissions_users      |
+| posts                  |
+| posts_authors          |
+| posts_tags             |
+| refreshtokens          |
+| roles                  |
+| roles_users            |
+| settings               |
+| subscribers            |
+| tags                   |
+| users                  |
+| webhooks               |
++------------------------+
+25 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+
+/home/docker >docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+93f504205493        ghost:1-alpine                                                   "docker-entrypoint..."   2 minutes ago       Up 2 minutes        0.0.0.0:8989->2368/tcp                                               blog-ghost
+1081e6922a7b        mysql:5.7                                                        "docker-entrypoint..."   4 minutes ago       Up 4 minutes        3306/tcp, 33060/tcp                                                  blog-db
+
+/home/docker >
