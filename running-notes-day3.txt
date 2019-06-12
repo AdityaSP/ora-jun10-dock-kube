@@ -801,3 +801,33 @@ CONTAINER ID        IMAGE                                                       
 1081e6922a7b        mysql:5.7                                                        "docker-entrypoint..."   4 minutes ago       Up 4 minutes        3306/tcp, 33060/tcp                                                  blog-db
 
 /home/docker >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------
+λ kubect config get-contexts
+bash: kubect: command not found
+Dell lap@Dell ~
+λ kubectl config get-contexts
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+          kubernetes-admin@kubernetes   kubernetes   kubernetes-admin
+*         minikube                      minikube     minikube
+Dell lap@Dell ~
+λ kubectl version
+Client Version: version.Info{Major:"1", Minor:"9", GitVersion:"v1.9.0", GitCommit:"925c127ec6b946659ad0fd596fa959be43f0cc05", GitTreeState:"clean", BuildDate:"2017-12-15T21:07:38Z", GoVersion:"go1.9.2", Compiler:"gc", Platform:"windows/amd64"}
+Server Version: version.Info{Major:"", Minor:"", GitVersion:"v1.9.0", GitCommit:"925c127ec6b946659ad0fd596fa959be43f0cc05", GitTreeState:"clean", BuildDate:"2018-01-26T19:04:38Z", GoVersion:"go1.9.1", Compiler:"gc", Platform:"linux/amd64"}
+Dell lap@Dell ~
+λ
