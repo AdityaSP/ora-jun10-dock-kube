@@ -11,8 +11,8 @@ spec:
     spec:
       containers:
       - name: web
-        image: al-ap
-        imagePullPolicy: IfNotPresent
+        image: nginx
+#        imagePullPolicy: IfNotPresent
         ports:
-        - name: httpport
+        - name: nginxport
           containerPort: 80
