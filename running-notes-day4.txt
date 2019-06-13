@@ -472,3 +472,298 @@ helloworld-dep-79fdc576b9-gzkhl   1/1       Running   0          30m       172.1
    app=helloworld,pod-template-hash=3598713265
 Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
 λ
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl describe svc hw-svc
+Name:                     hw-svc
+Namespace:                default
+Labels:                   <none>
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"ports":[{"nodePort":31001,"port":8888,...
+Selector:                 app=helloworld
+Type:                     NodePort
+IP:                       10.98.220.82
+Port:                     <unset>  8888/TCP
+TargetPort:               nginxport/TCP
+NodePort:                 <unset>  31001/TCP
+Endpoints:                172.17.0.9:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-79fdc576b9-gzkhl   1/1       Running   0          1h
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl scale deployment helloworld-dep --replicas 2
+deployment "helloworld-dep" scaled
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-79fdc576b9-8vvt4   1/1       Running   0          6s
+helloworld-dep-79fdc576b9-gzkhl   1/1       Running   0          1h
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl describe svc hw-svc
+Name:                     hw-svc
+Namespace:                default
+Labels:                   <none>
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"ports":[{"nodePort":31001,"port":8888,...
+Selector:                 app=helloworld
+Type:                     NodePort
+IP:                       10.98.220.82
+Port:                     <unset>  8888/TCP
+TargetPort:               nginxport/TCP
+NodePort:                 <unset>  31001/TCP
+Endpoints:                172.17.0.13:80,172.17.0.9:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods -o wide
+NAME                              READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-dep-79fdc576b9-8vvt4   1/1       Running   0          57s       172.17.0.13   minikube
+helloworld-dep-79fdc576b9-gzkhl   1/1       Running   0          1h        172.17.0.9    minikube
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl set image deploy helloworld-dep web=nginx:alpine
+deployment "helloworld-dep" image updated
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods -o wide
+NAME                              READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-dep-5cdb68cc76-jwvz8   1/1       Running   0          16s       172.17.0.13   minikube
+helloworld-dep-5cdb68cc76-z548q   1/1       Running   0          16s       172.17.0.16   minikube
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl describe svc hw-svc
+Name:                     hw-svc
+Namespace:                default
+Labels:                   <none>
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"ports":[{"nodePort":31001,"port":8888,...
+Selector:                 app=helloworld
+Type:                     NodePort
+IP:                       10.98.220.82
+Port:                     <unset>  8888/TCP
+TargetPort:               nginxport/TCP
+NodePort:                 <unset>  31001/TCP
+Endpoints:                172.17.0.13:80,172.17.0.16:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ curl 192.168.99.137:31001
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl set image deploy helloworld-dep web=aa
+deployment "helloworld-dep" image updated
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods -o wide
+NAME                              READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-dep-79fdc576b9-4rlhh   1/1       Running   0          26s       172.17.0.9    minikube
+helloworld-dep-79fdc576b9-qrrj9   1/1       Running   0          26s       172.17.0.13   minikube
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ curl 192.168.99.137:31001
+<html><body><h1>It works!</h1></body></html>
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ curl 192.168.99.137:31001
+<html><body><h1>It works!</h1></body></html>
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods -o wide
+NAME                              READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-dep-79fdc576b9-4rlhh   1/1       Running   0          3m        172.17.0.9    minikube
+helloworld-dep-79fdc576b9-qrrj9   1/1       Running   0          3m        172.17.0.13   minikube
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ #docker container exec -it <container id> sh
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl exec -it helloworld-dep-79fdc576b9-4rlhh -- sh
+/ # ps
+PID   USER     TIME  COMMAND
+    1 root      0:00 httpd -D FOREGROUND
+    6 apache    0:00 httpd -D FOREGROUND
+    7 apache    0:00 httpd -D FOREGROUND
+    8 apache    0:00 httpd -D FOREGROUND
+    9 apache    0:00 httpd -D FOREGROUND
+   10 apache    0:00 httpd -D FOREGROUND
+   11 root      0:00 sh
+   16 root      0:00 ps
+/ # curl
+sh: curl: not found
+/ # apk add curl
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+(1/5) Installing ca-certificates (20190108-r0)
+(2/5) Installing nghttp2-libs (1.35.1-r0)
+(3/5) Installing libssh2 (1.8.2-r0)
+(4/5) Installing libcurl (7.64.0-r2)
+(5/5) Installing curl (7.64.0-r2)
+Executing busybox-1.29.3-r10.trigger
+Executing ca-certificates-20190108-r0.trigger
+OK: 11 MiB in 25 packages
+/ # curl localhost:80
+<html><body><h1>It works!</h1></body></html>
+/ # curl 172.17.0.13:80
+<html><body><h1>It works!</h1></body></html>
+/ # curl 192.168.99.137:31001
+<html><body><h1>It works!</h1></body></html>
+/ # curl 10.98.220.82:8888
+^C
+/ # curl 10.98.220.82:8888
+<html><body><h1>It works!</h1></body></html>
+/ # curl hw-svc:8888
+<html><body><h1>It works!</h1></body></html>
+/ # cat /etc/resolv.conf
+nameserver 10.96.0.10
+search default.svc.cluster.local svc.cluster.local cluster.local
+options ndots:5
+/ # nslookup hw-svc
+nslookup: can't resolve '(null)': Name does not resolve
+
+Name:      hw-svc
+Address 1: 10.98.220.82 hw-svc.default.svc.cluster.local
+/ # curl hw-svc.default.svc.cluster.local:8888
+<html><body><h1>It works!</h1></body></html>
+/ # ^C
+/ # exit
+command terminated with exit code 130
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get svc
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+hw-svc       NodePort    10.98.220.82   <none>        8888:31001/TCP   1h
+kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP          183d
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get ns
+NAME          STATUS    AGE
+default       Active    183d
+kube-public   Active    183d
+kube-system   Active    183d
+monitoring    Active    181d
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get svc -n kube-system
+NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
+default-http-backend   NodePort    10.103.225.247   <none>        80:30001/TCP        183d
+heapster               ClusterIP   10.105.175.217   <none>        80/TCP              183d
+kube-dns               ClusterIP   10.96.0.10       <none>        53/UDP,53/TCP       183d
+kubernetes-dashboard   NodePort    10.103.11.130    <none>        80:30000/TCP        183d
+metrics-server         ClusterIP   10.109.22.160    <none>        443/TCP             181d
+monitoring-grafana     NodePort    10.109.41.42     <none>        80:30002/TCP        183d
+monitoring-influxdb    ClusterIP   10.103.96.251    <none>        8083/TCP,8086/TCP   183d
+tiller-deploy          ClusterIP   10.96.170.66     <none>        44134/TCP           118d
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl describe svc kube-dns -n kube-system
+Name:              kube-dns
+Namespace:         kube-system
+Labels:            addonmanager.kubernetes.io/mode=Reconcile
+                   k8s-app=kube-dns
+                   kubernetes.io/name=KubeDNS
+Annotations:       kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","k8s-app":"kube-dns","kubernet...
+Selector:          k8s-app=kube-dns
+Type:              ClusterIP
+IP:                10.96.0.10
+Port:              dns  53/UDP
+TargetPort:        53/UDP
+Endpoints:         172.17.0.12:53
+Port:              dns-tcp  53/TCP
+TargetPort:        53/TCP
+Endpoints:         172.17.0.12:53
+Session Affinity:  None
+Events:            <none>
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-79fdc576b9-4rlhh   1/1       Running   0          34m
+helloworld-dep-79fdc576b9-qrrj9   1/1       Running   0          34m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods -o wide
+NAME                              READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-dep-79fdc576b9-4rlhh   1/1       Running   0          34m       172.17.0.9    minikube
+helloworld-dep-79fdc576b9-qrrj9   1/1       Running   0          34m       172.17.0.13   minikube
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods -n kube-system
+NAME                                    READY     STATUS    RESTARTS   AGE
+default-http-backend-cvzhd              1/1       Running   237        119d
+heapster-546c9964c6-2w8ld               1/1       Running   63         119d
+heapster-xnbjb                          1/1       Running   63         119d
+influxdb-grafana-tx55c                  2/2       Running   129        119d
+kube-addon-manager-minikube             1/1       Running   66         183d
+kube-dns-54cccfbdf8-fm9cn               3/3       Running   33         27d
+kubernetes-dashboard-77d8b98585-mftdb   1/1       Running   3          17d
+metrics-server-bb9ffc6b8-c4bsh          1/1       Running   64         119d
+monitoring-grafana-65757b9656-h4fbs     1/1       Running   62         119d
+monitoring-influxdb-66946c9f58-h5lhw    1/1       Running   65         119d
+nginx-ingress-controller-zjd74          1/1       Running   408        119d
+tiller-deploy-5b7c59888b-6rbgl          1/1       Running   258        103d
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods -n kube-system -o wide
+NAME                                    READY     STATUS    RESTARTS   AGE       IP
+  NODE
+default-http-backend-cvzhd              1/1       Running   237        119d      172.17.0.4
+  minikube
+heapster-546c9964c6-2w8ld               1/1       Running   63         119d      172.17.0.7
+  minikube
+heapster-xnbjb                          1/1       Running   63         119d      172.17.0.3
+  minikube
+influxdb-grafana-tx55c                  2/2       Running   129        119d      172.17.0.2
+  minikube
+kube-addon-manager-minikube             1/1       Running   66         183d      192.168.99.137
+  minikube
+kube-dns-54cccfbdf8-fm9cn               3/3       Running   33         27d       172.17.0.12
+  minikube
+kubernetes-dashboard-77d8b98585-mftdb   1/1       Running   3          17d       172.17.0.14
+  minikube
+metrics-server-bb9ffc6b8-c4bsh          1/1       Running   64         119d      172.17.0.11
+  minikube
+monitoring-grafana-65757b9656-h4fbs     1/1       Running   62         119d      172.17.0.15
+  minikube
+monitoring-influxdb-66946c9f58-h5lhw    1/1       Running   65         119d      172.17.0.6
+  minikube
+nginx-ingress-controller-zjd74          1/1       Running   408        119d      172.17.0.5
+  minikube
+tiller-deploy-5b7c59888b-6rbgl          1/1       Running   258        103d      172.17.0.10
+  minikube
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ #kube-dns-54cccfbdf8-fm9cn
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-79fdc576b9-4rlhh   1/1       Running   0          35m
+helloworld-dep-79fdc576b9-qrrj9   1/1       Running   0          35m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get deploy -n kube-system
+NAME                   DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+heapster               1         1         1            1           181d
+kube-dns               1         1         1            1           183d
+kubernetes-dashboard   1         1         1            1           183d
+metrics-server         1         1         1            1           181d
+monitoring-grafana     1         1         1            1           181d
+monitoring-influxdb    1         1         1            1           181d
+tiller-deploy          1         1         1            1           103d
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ
