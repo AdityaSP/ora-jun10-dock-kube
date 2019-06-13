@@ -1,0 +1,25 @@
+Windows
+λ curl 192.168.99.137:31001   ---> Load balanced
+<html><body><h1>It works!</h1></body></html>
+
+Minikube
+$ curl localhost:31001        ---> Load Balanced
+<html><body><h1>It works!</h1></body></html>
+$ curl 192.168.99.137:31001   ---> Load Balanced
+<html><body><h1>It works!</h1></body></html>
+$ curl 172.17.0.9:80          ---> Not LB
+<html><body><h1>It works!</h1></body></html>
+$ curl 10.98.220.82:8888      ---> Load Balanced
+<html><body><h1>It works!</h1></body></html>
+
+POD
+/ # curl localhost:80         ---> Not LB
+<html><body><h1>It works!</h1></body></html>
+/ # curl 172.17.0.13:80       ---> Not LB
+<html><body><h1>It works!</h1></body></html>
+/ # curl 192.168.99.137:31001 ---> LB
+<html><body><h1>It works!</h1></body></html>
+/ # curl 10.98.220.82:8888    ---> LB
+<html><body><h1>It works!</h1></body></html>
+/ # curl hw-svc:8888
+<html><body><h1>It works!</h1></body></html>
