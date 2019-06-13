@@ -1,0 +1,426 @@
+λ kubectl get pods
+NAME                          READY     STATUS    RESTARTS   AGE
+helloworld-controller-nvmfs   1/1       Running   1          17h
+helloworld-controller-plvj8   1/1       Running   1          17h
+Dell lap@Dell ~
+λ kubectl get rc
+NAME                    DESIRED   CURRENT   READY     AGE
+helloworld-controller   2         2         2         17h
+Dell lap@Dell ~
+λ kubectl delete rc helloworld-controller
+replicationcontroller "helloworld-controller" deleted
+Dell lap@Dell ~
+λ cd docker-workshop/jun10/k8s
+bash: cd: docker-workshop/jun10/k8s: No such file or directory
+Dell lap@Dell ~
+λ cd docker-workshop/jun10/ora-jun10-dock-kube/k8s/
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   dep/dep-helloworld.yml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ git commit -a -m"some changes"
+[master ac6954f] some changes
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ git push
+fatal: HttpRequestException encountered.
+   An error occurred while sending the request.
+Username for 'https://github.com': adityasp
+remote: Invalid username or password.
+fatal: Authentication failed for 'https://github.com/AdityaSP/ora-jun10-dock-kube/'
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ git push https://adityasp@github.com/AdityaSP/ora-jun10-dock-kube
+fatal: HttpRequestException encountered.
+   An error occurred while sending the request.
+remote: Invalid username or password.
+fatal: Authentication failed for 'https://adityasp@github.com/AdityaSP/ora-jun10-dock-kube/'
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ git push https://adityasp@github.com/AdityaSP/ora-jun10-dock-kube
+fatal: HttpRequestException encountered.
+   An error occurred while sending the request.
+remote: Invalid username or password.
+fatal: Authentication failed for 'https://adityasp@github.com/AdityaSP/ora-jun10-dock-kube/'
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+No resources found.
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl apply -f dep/dep-helloworld.yml
+deployment "helloworld-dep" created
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get deploy
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+helloworld-dep   2         2         2            2           25s
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl describe deploy helloworld-dep
+Name:                   helloworld-dep
+Namespace:              default
+CreationTimestamp:      Thu, 13 Jun 2019 09:49:35 +0530
+Labels:                 app=helloworld
+Annotations:            deployment.kubernetes.io/revision=1
+                        kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"extensions/v1beta1","kind":"Deployment","metadata":{"annotations":{},"name":"helloworld-dep","namespace":"default"},"spec":{"replicas":2...
+Selector:               app=helloworld
+Replicas:               2 desired | 2 updated | 2 total | 2 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  1 max unavailable, 1 max surge
+Pod Template:
+  Labels:  app=helloworld
+  Containers:
+   web:
+    Image:        nginx
+    Port:         80/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   helloworld-dep-765746cb75 (2/2 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  47s   deployment-controller  Scaled up replica set helloworld-dep-765746cb75 to 2
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get rs
+NAME                        DESIRED   CURRENT   READY     AGE
+helloworld-dep-765746cb75   2         2         2         1m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get rc
+No resources found.
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl describe rs helloworld-dep-765746cb75
+Name:           helloworld-dep-765746cb75
+Namespace:      default
+Selector:       app=helloworld,pod-template-hash=3213027631
+Labels:         app=helloworld
+                pod-template-hash=3213027631
+Annotations:    deployment.kubernetes.io/desired-replicas=2
+                deployment.kubernetes.io/max-replicas=3
+                deployment.kubernetes.io/revision=1
+Controlled By:  Deployment/helloworld-dep
+Replicas:       2 current / 2 desired
+Pods Status:    2 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  app=helloworld
+           pod-template-hash=3213027631
+  Containers:
+   web:
+    Image:        nginx
+    Port:         80/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age   From                   Message
+  ----    ------            ----  ----                   -------
+  Normal  SuccessfulCreate  2m    replicaset-controller  Created pod: helloworld-dep-765746cb75-9skkm
+  Normal  SuccessfulCreate  2m    replicaset-controller  Created pod: helloworld-dep-765746cb75-n8qbq
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-765746cb75-9skkm   1/1       Running   0          2m
+helloworld-dep-765746cb75-n8qbq   1/1       Running   0          2m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get deploy
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+helloworld-dep   2         2         2            2           3m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get rs
+NAME                        DESIRED   CURRENT   READY     AGE
+helloworld-dep-765746cb75   2         2         2         3m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pod
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-765746cb75-9skkm   1/1       Running   0          3m
+helloworld-dep-765746cb75-n8qbq   1/1       Running   0          3m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pod --show-labels
+NAME                              READY     STATUS    RESTARTS   AGE       LABELS
+helloworld-dep-765746cb75-9skkm   1/1       Running   0          4m        app=helloworld,pod-template-hash=3213027631
+helloworld-dep-765746cb75-n8qbq   1/1       Running   0          4m        app=helloworld,pod-template-hash=3213027631
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl scale deploy helloworld-dep --replicas 5
+deployment "helloworld-dep" scaled
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get deploy
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+helloworld-dep   5         5         5            3           7m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get rs
+NAME                        DESIRED   CURRENT   READY     AGE
+helloworld-dep-765746cb75   5         5         4         7m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-765746cb75-94l4g   1/1       Running   0          30s
+helloworld-dep-765746cb75-9skkm   1/1       Running   0          8m
+helloworld-dep-765746cb75-fjqfj   1/1       Running   0          30s
+helloworld-dep-765746cb75-n8qbq   1/1       Running   0          8m
+helloworld-dep-765746cb75-xgvf7   1/1       Running   0          30s
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl apply -f dep/dep-helloworld.yml
+deployment "helloworld-dep" configured
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS        RESTARTS   AGE
+helloworld-dep-765746cb75-94l4g   0/1       Terminating   0          1m
+helloworld-dep-765746cb75-9skkm   1/1       Running       0          8m
+helloworld-dep-765746cb75-fjqfj   1/1       Running       0          1m
+helloworld-dep-765746cb75-n8qbq   1/1       Running       0          8m
+helloworld-dep-765746cb75-xgvf7   0/1       Terminating   0          1m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep
+deployments "helloworld-dep"
+REVISION  CHANGE-CAUSE
+1         <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep --revision 1
+deployments "helloworld-dep" with revision #1
+Pod Template:
+  Labels:       app=helloworld
+        pod-template-hash=3213027631
+  Containers:
+   web:
+    Image:      nginx
+    Port:       80/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl scale deployment helloworld-dep --replicas 10
+deployment "helloworld-dep" scaled
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout status deployment "helloworld-dep"
+deployment "helloworld-dep" successfully rolled out
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-765746cb75-6gbnn   1/1       Running   0          1m
+helloworld-dep-765746cb75-9skkm   1/1       Running   0          15m
+helloworld-dep-765746cb75-b6lrb   1/1       Running   0          1m
+helloworld-dep-765746cb75-btq5b   1/1       Running   0          1m
+helloworld-dep-765746cb75-fjqfj   1/1       Running   0          7m
+helloworld-dep-765746cb75-j8xsw   1/1       Running   0          1m
+helloworld-dep-765746cb75-n8qbq   1/1       Running   0          15m
+helloworld-dep-765746cb75-vlj7l   1/1       Running   0          1m
+helloworld-dep-765746cb75-wkkqk   1/1       Running   0          1m
+helloworld-dep-765746cb75-zpj85   1/1       Running   0          1m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl describe pod helloworld-dep-765746cb75-6gbnn | grep Image
+    Image:          nginx
+    Image ID:       docker-pullable://nginx@sha256:bdbf36b7f1f77ffe7bd2a32e59235dff6ecf131e3b6b5b96061c652f30685f3a
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl set image deploy helloworld-dep web=nginx:alpine
+deployment "helloworld-dep" image updated
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout status deployment "helloworld-dep"
+Waiting for rollout to finish: 2 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 4 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 4 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 4 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 4 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 4 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 6 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 6 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 6 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 6 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 8 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 8 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 8 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 8 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 9 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 9 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 9 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 9 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 9 of 10 updated replicas are available...
+deployment "helloworld-dep" successfully rolled out
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep
+deployments "helloworld-dep"
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep --revision 1
+deployments "helloworld-dep" with revision #1
+Pod Template:
+  Labels:       app=helloworld
+        pod-template-hash=3213027631
+  Containers:
+   web:
+    Image:      nginx
+    Port:       80/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep --revision 2
+deployments "helloworld-dep" with revision #2
+Pod Template:
+  Labels:       app=helloworld
+        pod-template-hash=3843324994
+  Containers:
+   web:
+    Image:      nginx:alpine
+    Port:       80/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ #kubectl rollout undo deploy helloworld-dep --to-revision 1
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-7d87768ff8-6pcdn   1/1       Running   0          3m
+helloworld-dep-7d87768ff8-7hcfz   1/1       Running   0          2m
+helloworld-dep-7d87768ff8-c4s5p   1/1       Running   0          2m
+helloworld-dep-7d87768ff8-chcpn   1/1       Running   0          3m
+helloworld-dep-7d87768ff8-fdkk7   1/1       Running   0          2m
+helloworld-dep-7d87768ff8-s85l6   1/1       Running   0          2m
+helloworld-dep-7d87768ff8-vkdhd   1/1       Running   0          3m
+helloworld-dep-7d87768ff8-w8s9r   1/1       Running   0          2m
+helloworld-dep-7d87768ff8-wtbqr   1/1       Running   0          2m
+helloworld-dep-7d87768ff8-zx7mp   1/1       Running   0          3m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl describe pod helloworld-dep-7d87768ff8-6pcdn | grep Image
+    Image:          nginx:alpine
+    Image ID:       docker-pullable://nginx@sha256:366c39a589f69a893368d942d9d323893025e8c27a523657ba3a2119dfc66057
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout undo deploy helloworld-dep --to-revision 1
+deployment "helloworld-dep"
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep
+deployments "helloworld-dep"
+REVISION  CHANGE-CAUSE
+2         <none>
+3         <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep --to-revision 2
+Error: unknown flag: --to-revision
+
+
+Examples:
+  # View the rollout history of a deployment
+  kubectl rollout history deployment/abc
+
+  # View the details of daemonset revision 3
+  kubectl rollout history daemonset/abc --revision=3
+
+Options:
+  -f, --filename=[]: Filename, directory, or URL to files identifying the resource to get from a server.
+  -R, --recursive=false: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+      --revision=0: See the details, including podTemplate of the revision specified
+
+Usage:
+  kubectl rollout history (TYPE NAME | TYPE/NAME) [flags] [options]
+
+Use "kubectl options" for a list of global command-line options (applies to all commands).
+
+error: unknown flag: --to-revision
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep --revision 2
+deployments "helloworld-dep" with revision #2
+Pod Template:
+  Labels:       app=helloworld
+        pod-template-hash=3843324994
+  Containers:
+   web:
+    Image:      nginx:alpine
+    Port:       80/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep --revision 3
+deployments "helloworld-dep" with revision #3
+Pod Template:
+  Labels:       app=helloworld
+        pod-template-hash=3213027631
+  Containers:
+   web:
+    Image:      nginx
+    Port:       80/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep
+deployments "helloworld-dep"
+REVISION  CHANGE-CAUSE
+2         <none>
+3         <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep --revision 2
+deployments "helloworld-dep" with revision #2
+Pod Template:
+  Labels:       app=helloworld
+        pod-template-hash=3843324994
+  Containers:
+   web:
+    Image:      nginx:alpine
+    Port:       80/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep
+deployments "helloworld-dep"
+REVISION  CHANGE-CAUSE
+2         <none>
+3         <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout undo deploy helloworld-dep --to-revision 2
+deployment "helloworld-dep"
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl rollout history deploy helloworld-dep
+deployments "helloworld-dep"
+REVISION  CHANGE-CAUSE
+3         <none>
+4         <none>
+
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ
