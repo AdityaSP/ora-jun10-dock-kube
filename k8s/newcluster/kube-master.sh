@@ -1,3 +1,4 @@
+swapoff -a
 echo "deploying kubernetes (with calico)..."
 kubeadm init --pod-network-cidr=192.168.0.0/16 --apiserver-advertise-address=192.167.10.70
 export KUBECONFIG=/etc/kubernetes/admin.conf
