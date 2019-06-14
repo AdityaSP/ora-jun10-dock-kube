@@ -1,0 +1,76 @@
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ minikube status
+minikube: Running
+cluster: Running
+kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.138
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pv
+NAME              CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM
+STORAGECLASS   REASON    AGE
+mysql-pv-volume   1Gi        RWO            Retain           Bound     default/mysql-pv-claim
+manual                   20d
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubect get pvc
+bash: kubect: command not found
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pvc
+NAME             STATUS    VOLUME            CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+mysql-pv-claim   Bound     mysql-pv-volume   1Gi        RWO            manual         20d
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl delete pvc mysql-pv-claim
+persistentvolumeclaim "mysql-pv-claim" deleted
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl delete pv mysql-pv-volume
+persistentvolume "mysql-pv-volume" deleted
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl apply -f pv-pvc/pv.yml
+persistentvolume "mysql-pv-volume1" created
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pv
+NAME               CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM     STORAGECLASS
+   REASON    AGE
+mysql-pv-volume1   1Gi        RWO            Retain           Available             manual
+             24s
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl apply -f pv-pvc/pvc.yml
+persistentvolumeclaim "mysql-pv-claim" created
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pvc
+NAME             STATUS    VOLUME             CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+mysql-pv-claim   Bound     mysql-pv-volume1   1Gi        RWO            manual         17s
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pv
+NAME               CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM
+ STORAGECLASS   REASON    AGE
+mysql-pv-volume1   1Gi        RWO            Retain           Bound     default/mysql-pv-claim
+ manual                   7m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pvc
+NAME             STATUS    VOLUME             CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+mysql-pv-claim   Bound     mysql-pv-volume1   1Gi        RWO            manual         4m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl apply -f pv-pvc/mysql.yml
+deployment "mysql" created
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ minikube ip
+192.168.99.138
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+blog-db-dep-654dfc76d9-rdfl4      1/1       Running   1          20h
+blog-ghost-dep-865f98fdf7-649zd   1/1       Running   3          20h
+mysql-7768cd7f88-fn7xw            1/1       Running   0          2m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl delete -f blog/
+deployment "blog-db-dep" deleted
+service "blog-db-svc" deleted
+deployment "blog-ghost-dep" deleted
+service "blog-ghost-svc" deleted
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ kubectl get pods
+NAME                     READY     STATUS    RESTARTS   AGE
+mysql-7768cd7f88-fn7xw   1/1       Running   0          2m
+Dell lap@Dell ~/docker-workshop/jun10/ora-jun10-dock-kube/k8s (master)
+λ
